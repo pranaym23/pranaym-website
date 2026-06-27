@@ -1,0 +1,22 @@
+# Pranay — Personal Website (pranaym.com)
+
+## Info
+- URL: https://pranaym.com
+- Location: São Paulo, Brazil
+- Core Focus: Tech Founder, Software Engineering, Generative AI Systems, Startup Leadership, Writing
+- External Profiles:
+  - LinkedIn: https://www.linkedin.com/in/pranaym/
+  - Twitter/X: https://twitter.com/pranaym0
+  - Instagram: https://instagram.com/xerk
+
+## About
+Pranay is a startup founder and systems engineer based in São Paulo, Brazil. His work is centered on technical architecture, product building, and generative AI systems. He writes essays reflecting on startup operations, technical structures, the psychological dynamics of entrepreneurship, and personal reflections on growth and adaptability.
+
+## Summary of Core Reflections
+- **Founder Dynamics:** Focuses on building resilience, accepting vulnerability in high-stakes roles, and prioritizing core execution.
+- **Growth Mindset:** Views adapting to new environments and challenges as a massive catalyst for professional and personal growth.
+- **Engineering Philosophy:** Advocates for highly performant, accessible, semantic web architectures with extremely minimal and clean designs (built using Astro).
+
+## Sitemap & Structure
+- [Homepage](https://pranaym.com): Personal profile, text social links, and the complete writing archive list.
+- [Blog Posts](https://pranaym.com/blog/): Type-safe chronological essays and articles exploring ideas in technology, life, and personal philosophy.
