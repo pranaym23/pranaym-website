@@ -1,0 +1,115 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Pranay — Founder & Writer", 
+  description = "Personal website, story, and writing of Pranay." 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  
+  <!-- SEO Best Practices -->
+  <link rel="canonical" href="https://pranaym.com" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content="https://pranaym.com" />
+  <meta property="og:image" content="https://pranaym.com/images/portrait.png" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@pranaym0" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- GEO/AEO Entity Linked Graph (Schema.org) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://pranaym.com/#person",
+          "name": "Pranay",
+          "url": "https://pranaym.com",
+          "sameAs": [
+            "https://www.linkedin.com/in/pranaym/",
+            "https://twitter.com/pranaym0",
+            "https://instagram.com/xerk"
+          ],
+          "jobTitle": "Tech Founder & Writer",
+          "knowsAbout": [
+            "Software Engineering",
+            "Startup Architecture",
+            "Generative AI",
+            "Product Leadership"
+          ],
+          "description": "A tech founder, engineer, and writer based in São Paulo, Brazil."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://pranaym.com/#website",
+          "url": "https://pranaym.com",
+          "name": "Pranay Mehrotra",
+          "description": "Personal website, story, and essays of Pranay.",
+          "publisher": {
+            "@id": "https://pranaym.com/#person"
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Global Minimal Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo">Pranay Mehrotra</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/about">About</a></li>
+            <li><a href="/blog">Blog</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Dynamic Slot for Page Contents -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-copy">&copy; {new Date().getFullYear()} Pranay. Built with Astro.</p>
+        <div>
+          <a href="/llms.txt" class="ai-bot-link" target="_blank">
+            <span>🤖 llms.txt — Optimized for AI Crawlers</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+---
+title: "The Anti-Mediocrity Principle"
+pubDate: "2010-10-02T00:08:37+05:30"
+friendlyDate: "October 2, 2010"
+description: "Original article from my WordPress blog: The Anti-Mediocrity Principle."
+wordpressLink: "https://xerk.wordpress.com/2010/10/02/the-anti-mediocrity-principle/"
+layout: "../../layouts/BlogPostLayout.astro"
+---
+
+We are witnessing the new-age Renaissance.
+
+It all began in the 14th century, the intellectuals came to the fore and told the others to back off, which they did eventually. People were learning to go home and think, but this time with their own brains. That too, in most cases, happened eventually. I won’t dwell on the fact that even such a movement was opposed by the orthodox, bearded and audacious followers of a god only they knew about. These men, I regret to inform you, used their brains on a sharing basis. When change is to occur, some bold men always die. And they did. Some great men were born and they did great things.
+
+One of the greatest principles of this age, which I have very frequently wondered about, is the Mediocrity Principle. Unmistakably so, it asserts that there is nothing special about the Earth or anybody inside it. In cold, plain words, nobody is special, anybody could have been where anybody is. Everybody is made up of the same molecules and while the number may differ, in a broader sense, we’re all the same. That person who sits idle all day in his office chair could very well have been that guy climbing Mount Kilimanjaro right now.
+
+Basically, it is fathered by the concept of   *what if*  ? What da Vinci, Copernicus and the company ignored while stating this, was the mother. The recent past has seen her grow so fierce and wise, she has blessed many with the most exuberant endowments.
+
+Being in the right place at the right time, being lucky, **** fortuitous is probably what works now. Everybody who is fortunate is not Mediocre. Obviously some have worked to get there but then there isn’t any point wasting time discussing them. Each of them will write an autobiography anyway and think that they have become  *gurus* .
+
+In the age we are in, it is probably the most important ingredient of a happy-beginning, if not always a happy-ending. I wish I was lucky. I hope I am in future.
+
+And so, I challenge the great French Intellectuals, without fear of the Guillotine, with my new Anti-Mediocrity Principle.
+
+---
+
+*Originally published on my WordPress blog. You can view the [original post on WordPress](https://xerk.wordpress.com/2010/10/02/the-anti-mediocrity-principle/).*

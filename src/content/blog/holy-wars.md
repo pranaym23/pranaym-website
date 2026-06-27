@@ -1,0 +1,24 @@
+---
+title: "Holy Wars"
+pubDate: "2011-01-11T02:50:47+05:30"
+friendlyDate: "January 11, 2011"
+description: "Original article from my WordPress blog: Holy Wars."
+wordpressLink: "https://xerk.wordpress.com/2011/01/11/holy-wars/"
+layout: "../../layouts/BlogPostLayout.astro"
+---
+
+I wish I could do it. I wish you could do it. I wish everybody could do it. But everybody is worried about society.
+
+Society too, is divided. The factors may vary, but the remainders are very few.
+
+I wish I could add a disclaimer or something but if I intend to induce a separatist feeling then mincing words is not an option.
+
+Religion has been misinterpreted for far too long. The condescending atheist may disagree, but 500 years ago it is very understandable that a man says that God, no I’m going to use a lower case for that, god told him that if I walk to the end of the earth I’ll fall off. But along with the flowering of the modern man, he became smarter and a lot of unanswered questions started getting answered. But fear lives on.
+
+The bottom line is, all that stems from fear is blind faith. In my opinion, this is what we interpret as religion. Its just another form of competition. I believe it is the root cause of most things evil. The root cause of all things evil is ego. Such communion, is also another form of ego. There is no such thing as holy bloodshed. In my previous post, I talked about groups of people who believe in sharing a common brain. All such cults, I believe, think with a common brain. Individual thinking hasn’t really been given a chance to evolve here. But it has to. Demolishing a mosque, training a 3 year old techniques to identify a crowd good enough to blow up in, using fear as a method to become popular are all unholy in the truest form.
+
+A realization is important at the earliest before we divide the world into 4 countries.
+
+---
+
+*Originally published on my WordPress blog. You can view the [original post on WordPress](https://xerk.wordpress.com/2011/01/11/holy-wars/).*

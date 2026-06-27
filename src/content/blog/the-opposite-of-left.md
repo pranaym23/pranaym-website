@@ -1,0 +1,22 @@
+---
+title: "The Opposite of Left"
+pubDate: "2011-06-11T07:16:13+05:30"
+friendlyDate: "June 11, 2011"
+description: "Original article from my WordPress blog: The Opposite of Left."
+wordpressLink: "https://xerk.wordpress.com/2011/06/11/the-opposite-of-left/"
+layout: "../../layouts/BlogPostLayout.astro"
+---
+
+What is right? It never had a clear definition. Today, it is as obscure as it ever was. There is nothing that you can say or do which will be right, even from your own point of view, unless in a definite time frame. The wind of change has erased the very concept of right, and in the process, wrong as well.
+
+There was a time when two people would argue about who was right. Two ideas would battle it out in the ring called righteousness. Today, it is possible for this fight to take place in a person’s own brain. With a result extremely difficult to come by. What seems right today, you may end up regretting a day later. We have all learnt the hard way.
+
+If you live in a place called India, this effect will be even more profound. A man takes to the street and kills on contracts. Because he needs to feed a family of six including a chronically ill child. He never went to school, friends came and went by and family was just a concept. For a man with a cleft lip and a severe speech disorder, the three years of employment he had as a car washer in a small Indian town was more than he had ever hoped for. But still, resorting to taking a life in the endeavor to give somebody a life is most certainly wrong. Or is it, you wonder? Although this is as hypothetical a situation you may imagine, in the world’s largest democracy, sorrow and despair is never hard to find.
+
+No, I don’t hate my country but I have begun to question the very ideals we claim to live by. We don’t have a leader and nor do we have a leader in sight who could do what’s right. Annas and Babas may seem better than what we have right now but power can corrupt the brightest of minds. I am, like the hundred crore others, am seeing the light at the end of the tunnel as a flickering candle. But I also know I see the glass as half empty.
+
+Which takes me back to the first question. Will there ever be a clear distinction between what is right and what is not? I don’t think so. But still, I wonder..
+
+---
+
+*Originally published on my WordPress blog. You can view the [original post on WordPress](https://xerk.wordpress.com/2011/06/11/the-opposite-of-left/).*

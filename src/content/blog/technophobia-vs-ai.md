@@ -1,0 +1,65 @@
+---
+title: "Technophobia vs AI: Are We Handing Over the Keys?"
+pubDate: "2018-05-01T12:00:00Z"
+friendlyDate: "May 1, 2018"
+description: "Original article from my LinkedIn: Technophobia vs AI: Are We Handing Over the Keys?"
+wordpressLink: "https://www.linkedin.com/pulse/technophobia-vs-ai-we-handing-over-keys-pranay-mehrotra/"
+layout: "../../layouts/BlogPostLayout.astro"
+---
+
+![Clickbait image sourced from Google](/images/technophobia-vs-ai-img-1.jpg)
+*Clickbait image sourced from Google*
+
+In 1997, IBM’s Deep Blue supercomputer defeated Gary Kasparov – considered the greatest chess player of all time and also a former mentor to the current World Chess Champion Magnus Carlsen. This was 20 years back and was a real shock to humanity. It is still unclear whether IBM adopted some malpractices to win and whether Kasparov was robbed but whatever said and done, a supercomputer rattled the mind of a grandmaster, who was at his undisputed peak during that period.
+
+Computers and their Artificial Intelligence have been a cause of concern for many. Movies and concepts like Skynet from Terminator 2, Hal in 2001: A Space Odyssey, Samantha from Her or even the Indian webseries A.I.Sha on YouTube have set into context what humans should fear most when it comes to Technology and AI – independent decision making. People seem to be appreciative of AI when viewed from a distance – a bot helping you with customer support (which is currently an irritant because of inefficiencies), a system helping employee productivity and behavior or even a personal assistant on your phone. But what could it really mean?
+
+Adding to this, a recent survey by the British Science Association made some interesting revelations:
+
+* 60% of people believe that robots equipped with AI will lead to fewer jobs within a decade
+* Over one-third (36%) of the participants believed that further advancements in AI will be a threat to humanity
+* 46% opposed the idea of a robot being equipped with emotions or a personality
+* 62% opposed the idea of a robot flying a commercial aircraft
+* 53% opposed the idea of a robot conducting surgical procedures
+
+It's all good till the time a bot is just automating and assisting. As robots come closer to extremely critical tasks currently done by humans with advanced machine learning capabilities, the vox populi is unsure.
+
+With hundreds of billions of dollars already invested into developing artificial intelligence, and more on the way, change is coming and it is not too far away. Companies like Infosys, Wipro, IBM and even Microsoft are showing people the door, by automating a range of tasks that people have been inefficiently doing in the past. What possibly needs to happen is that there need to be some rules that govern the development and deployment of artificial intelligence.
+
+Personally, I am a technophilliac, because among other things, my work depends on it. But beyond normal uses of technology as a general enabler, there are some fears that I have surrounding AI and its current state of development.
+
+### 1. Who controls the ethics of AI?
+
+When Google acquired DeepMind in 2014, a part of the deal was that they would set up an ethics and safety board to ensure this highly advanced AI technology, coupled with Google’s arguable position as the world’s biggest database, is not abused. Sergey Brin echoed this sentiment recently talking about the dark side of AI.
+
+Three years on, nothing has really been made available to the public. The company board has repeatedly confirmed the presence of such a board but hey, who decides what is ethical or not? At least the world should know what the rules are.
+
+It would help if governments, user communities, and end-users advocate the requirement for an independent auditing body.
+
+### 2. Snowball Effects of Artificial Intelligence
+
+> When questioned about the rise of AI, the late Professor Stephen Hawking said “Humans, who are limited by slow biological evolution, couldn’t compete and would be superseded.”
+
+Currently, a lot of focus is being given to self-learning and self-inspired actions being taken by robots because the fact that all of the context has to be provided by humans right now is a limiting barrier. As this happens more effectively and AI becomes less dependent on human programming and instruction, what happens then?
+
+Even Elon Musk is apprehensive of the uncontrolled rise of AI. “I think we should be very careful about artificial intelligence. If I had to guess at what our biggest existential threat is, it’s probably that. So we need to be very careful,” said Musk during an interaction he had at MIT in 2014.
+
+### 3. Depreciating Value of Labor and Skill
+
+Although this has already been and continues to be a hot topic of discussion, the ethics of an uncontrolled deployment of a robotic work force could have devastating effects. AI advocates say that AI will eventually create more jobs than it will displace, allowing the human race to focus more on intellectual development than manual work.
+
+There should be some rules that control this deployment of automation. The voice of the people is pretty clear – whether we look at the American elections or Brexit, opting for cheap labor is not a universal answer and will have consequences.
+
+### 4. Potential Crime through AI
+
+Cybercrime is growing in an uncontrolled way and global governments have failed to combat it. So much so that Donald Trump and Vladimir Putin planned to join forces and fight it. The potential of AI and robots being used to fool biometric tests, security questions, and more is too high as of now.
+
+### 5. The Real Threat is Human Ignorance
+
+Artificial Intelligence is a design, set into motion by humans. All of the context, capabilities, and processes are set into action by human beings, fueled by emotions. These humans are limited by fundamental human rights, laws of the land, and various other emotional parameters; there is no guarantee that robots will be.
+
+I am pretty sure that Stephen Hawking, Sergey Brin, and Elon Musk (who has actually invested in various AI projects) have nothing personal against the advancement of Artificial Intelligence but rather the way it is happening right now. Let's start by recognizing the risks.
+
+---
+
+*Originally published on LinkedIn. You can view the [original article on LinkedIn](https://www.linkedin.com/pulse/technophobia-vs-ai-we-handing-over-keys-pranay-mehrotra/).*
