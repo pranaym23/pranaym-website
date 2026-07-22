@@ -56,6 +56,8 @@ html {
   font-size: 16px;
   line-height: 1.6;
   scroll-behavior: smooth;
+  /* Offset in-page anchors/skip-link so targets clear the sticky header. */
+  scroll-padding-top: 6rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.25s ease, color 0.25s ease;
@@ -120,6 +122,8 @@ body {
   color: var(--text-dim);
   text-decoration: none;
   transition: color 0.2s ease;
+  display: inline-block;
+  padding: 0.35rem 0.1rem;
 }
 
 .nav-links a:hover,
@@ -173,6 +177,14 @@ body {
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+/* Extend the toggle's clickable area to ~44px tall without changing its 40x20
+   look. Extend vertically only so it can't overlap the adjacent nav link. */
+.toggle-label::after {
+  content: "";
+  position: absolute;
+  inset: -12px -2px;
+}
+
 .toggle-checkbox:checked + .toggle-label::before {
   transform: translateX(20px);
 }
@@ -180,6 +192,29 @@ body {
 .toggle-switch .toggle-checkbox:focus-visible + .toggle-label {
   outline: 2px solid var(--text-strong);
   outline-offset: 2px;
+}
+
+/* Keep the whole header — logo + nav + toggle — on a single tidy row on phones,
+   and shrink the sticky header so it doesn't become a tall overlay. */
+@media (max-width: 600px) {
+  .site-header {
+    padding-top: 1.25rem;
+    padding-bottom: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .header-inner {
+    gap: 0.75rem;
+  }
+  .logo {
+    font-size: 1.35rem;
+    white-space: nowrap; /* keep the name on one line; nav wraps below only if it truly can't fit */
+  }
+  .nav-links {
+    gap: 0.9rem;
+  }
+  .nav-links a {
+    font-size: 1.05rem;
+  }
 }
 
 /* Main typography & elements */
@@ -196,7 +231,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-  font-size: 2.2rem;
+  font-size: clamp(1.75rem, 6vw, 2.2rem);
   margin-bottom: 1.5rem;
 }
 
@@ -208,7 +243,7 @@ h2 {
 
 p {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 4.5vw, 1.25rem);
   line-height: 1.6;
   margin-bottom: 1.25rem;
 }
@@ -250,7 +285,7 @@ a:hover {
 }
 
 .profile-intro p {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 4.5vw, 1.25rem);
   color: var(--text-main);
   line-height: 1.6;
   margin-bottom: 1.25rem;
@@ -307,6 +342,8 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   transition: color 0.2s ease;
+  display: inline-block;
+  padding: 0.4rem 0;
 }
 
 .social-links a:hover {
@@ -375,6 +412,8 @@ a:hover {
   border: none;
   text-decoration: none;
   transition: color 0.2s ease;
+  display: inline-block;
+  padding: 0.2rem 0;
 }
 
 .post-title-link:hover {
@@ -398,7 +437,7 @@ a:hover {
 
 .post-header h1,
 .about-header h1 {
-  font-size: 2.6rem;
+  font-size: clamp(1.9rem, 7vw, 2.6rem);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
@@ -414,6 +453,7 @@ a:hover {
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--text-main);
+  overflow-wrap: break-word;
 }
 
 .post-body p {
@@ -455,6 +495,72 @@ a:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Code & preformatted blocks: contain long lines to their own box so they
+   never force the whole page to scroll sideways on mobile. */
+.post-body pre,
+.read-body-content pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background: var(--border-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.post-body code,
+.read-body-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--border-subtle);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  overflow-wrap: break-word;
+}
+
+/* Inside a <pre>, the <code> should not repeat the inline chip styling. */
+.post-body pre code,
+.read-body-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+
+/* Tables scroll within their own box, not the page. */
+.post-body table,
+.read-body-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.post-body th,
+.post-body td,
+.read-body-content th,
+.read-body-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-body th,
+.read-body-content th {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
 .wordpress-origin-note {
   margin-top: 4rem;
   padding-top: 1.5rem;
@@ -479,6 +585,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   margin-bottom: 3rem;
+  padding: 0.4rem 0;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--text-dim);
@@ -773,7 +880,8 @@ a:hover {
 .read-meta-line {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-dim);
@@ -822,7 +930,7 @@ a:hover {
 
 .page-title {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 6.5vw, 2.5rem);
   font-weight: 600;
   color: var(--text-strong);
   margin-bottom: 0.75rem;
@@ -855,7 +963,8 @@ a:hover {
 .read-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
   font-family: var(--font-mono);
   font-size: 0.825rem;
   color: var(--text-dim);
@@ -879,6 +988,7 @@ a:hover {
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.3;
+  margin-top: 0; /* cancel inherited global h2 margin-top (3rem) inside cards */
   margin-bottom: 0.75rem;
 }
 
@@ -955,7 +1065,8 @@ a:hover {
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
 }
 
 .meta-dot {
@@ -964,7 +1075,7 @@ a:hover {
 
 .read-detail-title {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 6.5vw, 2.5rem);
   font-weight: 600;
   line-height: 1.25;
   color: var(--text-strong);
@@ -1031,6 +1142,7 @@ a:hover {
   line-height: 1.7;
   color: var(--text-main);
   margin-bottom: 3rem;
+  overflow-wrap: break-word;
 }
 
 .read-body-content h2, .read-body-content h3 {
@@ -1179,16 +1291,36 @@ a:hover {
   margin-left: 0.35rem;
 }
 
-/* Prevent nav overflow on very narrow screens without changing desktop layout */
+/* Mobile spacing polish: tighten heavy desktop rhythm on small screens. */
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: 4.5rem;
+  }
+  h2 {
+    margin-top: 2rem;
+  }
+  .read-card {
+    padding: 1.1rem;
+  }
+  .post-body img {
+    margin: 1.75rem auto;
+  }
+}
+
+/* Tighten the header further on very narrow screens so it still fits one row. */
 @media (max-width: 380px) {
   body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+  .logo {
+    font-size: 1.2rem;
+  }
   .nav-links {
-    gap: 0.9rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    gap: 0.7rem;
+  }
+  .nav-links a {
+    font-size: 1rem;
   }
 }
 
