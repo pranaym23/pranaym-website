@@ -15,7 +15,8 @@ export default defineConfig({
   // are loaded in dev only — the CMS runs locally at /keystatic during `npm run dev`.
   ...(isDev ? { adapter: node({ mode: 'standalone' }) } : {}),
   integrations: [
-    sitemap(),
+    // Keep the noindex admin redirect out of the sitemap.
+    sitemap({ filter: (page) => !page.includes('/admin') }),
     react(),
     ...(isDev ? [keystatic()] : []),
   ],
