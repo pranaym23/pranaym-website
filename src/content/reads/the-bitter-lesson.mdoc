@@ -4,12 +4,15 @@ author: "Rich Sutton"
 domain: "incompleteideas.net"
 url: "http://www.incompleteideas.net/inc/BitterLesson.html"
 pubDate: "2026-06-15"
-takeaway: "General methods that leverage computation are infinitely more effective than methods that leverage human domain knowledge."
+takeaway: "General methods that leverage computation are far more effective than approaches built on human domain knowledge."
 ---
 
-Rich Sutton's seminal essay remains one of the most important short reads in computer science and artificial intelligence.
+Rich Sutton's core argument is humbling for anyone who writes software. Looking back at decades of AI history, he shows that researchers repeatedly fall into the same trap. We try to handcraft human intelligence into our models, designing clever rules, features, and domain heuristics. It feels like the smart way to build AI. Yet every time compute scales up, simple general methods like search and learning end up crushing those carefully engineered shortcuts.
 
-### Core Argument
-The biggest lesson that can be drawn from 70 years of AI research is that general methods that leverage computation—like search and learning—are ultimately far more scalable and effective than domain-specific human engineering.
+The lesson is bitter because it hurts our ego as engineers. We want to believe that our deep domain expertise and structured designs are what make software intelligent. In reality, Moore's Law and massive computation do the heavy lifting. The hardest part of accepting Sutton's argument is realizing that our human intuitions about how thinking works are usually wrong for machines. Whenever we try to save compute by substituting human knowledge, we build a ceiling over what the system can achieve.
 
-> "The ultimate reason for this is Moore's law, or rather its generalization that computation per unit cost continues to grow exponentially."
+### What stuck with me
+
+- Human intuition is a bottleneck when building AI systems because we design for how we think, not how machines compute.
+- Breakthroughs in games, vision, and language came from scaling search and learning rather than tweaking rules.
+- Building for the long term means leveraging exponential compute growth instead of relying on clever domain heuristics.

@@ -38,6 +38,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
     <header class="read-detail-header">
       <div class="read-detail-meta">
+        <img
+          class="read-favicon"
+          src={`https://www.google.com/s2/favicons?domain=${entry.data.domain}&sz=32`}
+          alt={`${entry.data.domain} favicon`}
+          width="16"
+          height="16"
+          loading="lazy"
+        />
         <span class="read-author">{entry.data.author}</span>
         <span class="meta-dot">&middot;</span>
         <span class="read-domain">{entry.data.domain}</span>
@@ -49,7 +57,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
       <div class="takeaway-box">
         <span class="takeaway-label">Key Takeaway</span>
-        <p class="takeaway-quote">"{entry.data.takeaway}"</p>
+        <p class="takeaway-quote">{entry.data.takeaway}</p>
       </div>
 
       <div class="original-source-cta">

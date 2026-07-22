@@ -30,6 +30,14 @@ const sortedReads = reads.sort((a, b) => {
         return (
           <article class="read-card">
             <div class="read-header">
+              <img
+                class="read-favicon"
+                src={`https://www.google.com/s2/favicons?domain=${item.data.domain}&sz=32`}
+                alt={`${item.data.domain} favicon`}
+                width="16"
+                height="16"
+                loading="lazy"
+              />
               <span class="read-date">{formattedDate}</span>
               <span class="read-author">{item.data.author} &middot; <span class="read-domain">{item.data.domain}</span></span>
             </div>
@@ -39,7 +47,7 @@ const sortedReads = reads.sort((a, b) => {
               </a>
             </h2>
             <p class="read-takeaway">
-              "{item.data.takeaway}"
+              {item.data.takeaway}
             </p>
             <div class="read-actions">
               <a href={`/reads/${item.id}`} class="read-permalink">My Notes &rarr;</a>

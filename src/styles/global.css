@@ -866,6 +866,14 @@ a:hover {
   color: var(--text-muted);
 }
 
+.read-favicon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
 .read-title {
   font-family: var(--font-serif);
   font-size: 1.6rem;
