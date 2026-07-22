@@ -250,19 +250,16 @@ const webpImages = Object.keys(imageModules)
       // Start auto-scroll: 3s initial load delay (2s slide + 1s extra), followed by a 2s recurring loop
       startAutoScroll(3000, 2000);
 
-      // Pause interaction listeners
-      reel.addEventListener('mouseenter', () => {
+      // Note: hovering intentionally does NOT pause the reel — it keeps sliding
+      // while the hovered image reveals its color (handled purely in CSS).
+
+      // Only a deliberate manual take-over (drag / touch / wheel) pauses auto-scroll.
+      reel.addEventListener('pointerdown', () => {
         isPaused = true;
         stopAutoScroll();
       }, { passive: true });
 
-      reel.addEventListener('mouseleave', () => {
-        isPaused = false;
-        // Resume scrolling after the standard 2s interval
-        startAutoScroll(2000, 2000);
-      }, { passive: true });
-
-      reel.addEventListener('pointerdown', () => {
+      reel.addEventListener('wheel', () => {
         isPaused = true;
         stopAutoScroll();
       }, { passive: true });
