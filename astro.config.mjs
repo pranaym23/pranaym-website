@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
+import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import node from '@astrojs/node';
 
@@ -17,6 +18,8 @@ export default defineConfig({
   integrations: [
     // Keep the noindex admin redirect out of the sitemap.
     sitemap({ filter: (page) => !page.includes('/admin') }),
+    // Render Keystatic's .mdoc output (Markdoc) alongside the legacy .md posts.
+    markdoc(),
     react(),
     ...(isDev ? [keystatic()] : []),
   ],

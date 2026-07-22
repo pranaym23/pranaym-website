@@ -1,14 +1,10 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  storage: process.env.NODE_ENV === 'production'
-    ? {
-        kind: 'github',
-        repo: 'pranaym23/pranaym-website',
-      }
-    : {
-        kind: 'local',
-      },
+  // Offline-first: Keystatic runs locally in `npm run dev` and writes markdown
+  // straight to disk (src/content/**). No network/GitHub auth needed. Publish
+  // by committing + pushing — Cloudflare Pages then deploys.
+  storage: { kind: 'local' },
   collections: {
     blog: collection({
       label: 'Blog Posts',

@@ -9,6 +9,25 @@ const description = frontmatter?.description || Astro.props.description;
 const wordpressLink = frontmatter?.wordpressLink || Astro.props.wordpressLink;
 const pubDate = frontmatter?.pubDate || Astro.props.pubDate;
 const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
+
+// Canonical URL for this post, for structured data.
+const postUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  ...(description ? { description } : {}),
+  ...(isoDate ? { datePublished: isoDate, dateModified: isoDate } : {}),
+  author: {
+    '@type': 'Person',
+    name: 'Pranay Mehrotra',
+    url: 'https://pranaym.com',
+  },
+  publisher: { '@id': 'https://pranaym.com/#person' },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+  url: postUrl,
+};
 ---
 
 <BaseLayout
@@ -36,4 +55,6 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
       <slot />
     </div>
   </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
 </BaseLayout>
