@@ -1,0 +1,126 @@
+---
+// src/pages/reads/[slug].astro
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const reads = await getCollection('reads');
+  return reads.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const dateObj = new Date(entry.data.pubDate);
+const isoDate = dateObj.toISOString();
+const formattedDate = dateObj.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Cloudflare Turnstile site key (public). Comment form is disabled if absent.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<BaseLayout 
+  title={`${entry.data.title} — Recommendation by Pranay`}
+  description={`Pranay's notes on "${entry.data.title}" by ${entry.data.author}: ${entry.data.takeaway}`}
+>
+  <article class="read-detail-article">
+    <!-- Back to archive navigation -->
+    <nav class="back-nav">
+      <a href="/reads" class="back-link">&larr; Back to Recommended Reading</a>
+    </nav>
+
+    <header class="read-detail-header">
+      <div class="read-detail-meta">
+        <span class="read-author">{entry.data.author}</span>
+        <span class="meta-dot">&middot;</span>
+        <span class="read-domain">{entry.data.domain}</span>
+        <span class="meta-dot">&middot;</span>
+        <time datetime={isoDate}>{formattedDate}</time>
+      </div>
+
+      <h1 class="read-detail-title">{entry.data.title}</h1>
+
+      <div class="takeaway-box">
+        <span class="takeaway-label">Key Takeaway</span>
+        <p class="takeaway-quote">"{entry.data.takeaway}"</p>
+      </div>
+
+      <div class="original-source-cta">
+        <a href={entry.data.url} target="_blank" rel="noopener noreferrer" class="cta-button">
+          Read Original Article on {entry.data.domain} &nearr;
+        </a>
+      </div>
+    </header>
+
+    <hr class="section-divider" />
+
+    <!-- Personal Commentary Content -->
+    <div class="read-body-content">
+      <Content />
+    </div>
+
+    <!-- Structured Data Schema for SEO & LLMs -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Review",
+      "itemReviewed": {
+        "@type": "CreativeWork",
+        "name": entry.data.title,
+        "author": {
+          "@type": "Person",
+          "name": entry.data.author
+        },
+        "url": entry.data.url
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Pranay Mehrotra",
+        "url": "https://pranaym.com"
+      },
+      "reviewBody": entry.data.takeaway
+    })} />
+
+    <!-- Guest Comment Section Placeholder with Cloudflare Turnstile -->
+    <section class="comments-section" id="comments">
+      <h2 class="comments-title">Discussion & Comments</h2>
+      <p class="comments-note">
+        Have thoughts on this recommendation? Share your perspective below.
+      </p>
+
+      {turnstileSiteKey ? (
+        <form class="comment-form" action="https://api.pranaym.com/comment" method="POST">
+          <input type="hidden" name="post_id" value={`read-${entry.id}`} />
+
+          <div class="form-group">
+            <label for="comment-author">Name</label>
+            <input type="text" id="comment-author" name="author" required placeholder="Your name or handle" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="comment-text">Comment</label>
+            <textarea id="comment-text" name="comment" rows="4" required placeholder="Write your thoughts..." class="form-textarea"></textarea>
+          </div>
+
+          <!-- Cloudflare Turnstile Widget (SiteKey from PUBLIC_TURNSTILE_SITE_KEY) -->
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
+
+          <button type="submit" class="submit-comment-btn">Submit Comment</button>
+        </form>
+      ) : (
+        <p class="comments-note">Comments are temporarily unavailable.</p>
+      )}
+    </section>
+
+    <!-- Cloudflare Turnstile Script (only when comments are enabled) -->
+    {turnstileSiteKey && (
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    )}
+  </article>
+</BaseLayout>

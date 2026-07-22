@@ -4,7 +4,6 @@ pubDate: "2010-07-03T19:08:15+05:30"
 friendlyDate: "July 3, 2010"
 description: "Original article from my WordPress blog: Your Glass House is under attack Mr. Stone Hurler."
 wordpressLink: "https://xerk.wordpress.com/2010/07/03/your-glass-house-is-under-attack-mr-stone-hurler/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 Have you ever been criticized? Ever? If you’re thinking ‘No’ then your name is probably Paris Hilton. If your brain raced back to the last time you were made to introspect and recognize, probably not for the first time, a shortcoming you have, then you are, in my eyes, a very noble person.

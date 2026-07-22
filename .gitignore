@@ -1,0 +1,10 @@
+# node modules and builds
+node_modules/
+dist/
+.astro/
+.wrangler/
+.DS_Store
+
+# local environment files
+.env
+.env.*

@@ -4,7 +4,6 @@ pubDate: "2010-07-01T22:29:50+05:30"
 friendlyDate: "July 1, 2010"
 description: "Original article from my WordPress blog: Mah Kewlst Po$t Evah’."
 wordpressLink: "https://xerk.wordpress.com/2010/07/01/mah-kewlst-pot-evah/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 [](https://xerk.wordpress.com/wp-content/uploads/2010/07/stop-lukin.jpg)

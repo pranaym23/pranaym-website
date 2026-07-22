@@ -4,7 +4,6 @@ pubDate: "2011-06-14T22:56:19+05:30"
 friendlyDate: "June 14, 2011"
 description: "Original article from my WordPress blog: Which Hood are you wearing?."
 wordpressLink: "https://xerk.wordpress.com/2011/06/14/which-hood-are-you-wearing/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 This isn’t really a movie review. This is just some appreciation for Noel Clarke. And at a pretty young age, he’s written two pretty impressive scripts and turned them into movies.

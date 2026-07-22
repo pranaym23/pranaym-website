@@ -4,7 +4,6 @@ pubDate: "2011-07-03T19:41:45+05:30"
 friendlyDate: "July 3, 2011"
 description: "Original article from my WordPress blog: When Tom finally met Harry."
 wordpressLink: "https://xerk.wordpress.com/2011/07/03/when-tom-finally-met-harry/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 There was once a young boy called Tom. Tom was a wonderful boy. He had all the makings of a successful person, he would never tire of work, he was honest, helping others made him feel better and he was also very smart. There was just one problem. When Tom was three years old, he lost his right leg in an accident. He had to walk with crutches for the rest of his life. Well, he could also turn to a wheelchair but that was besides the point.

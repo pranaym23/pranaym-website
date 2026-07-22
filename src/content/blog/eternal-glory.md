@@ -4,7 +4,6 @@ pubDate: "2011-02-18T19:10:07+05:30"
 friendlyDate: "February 18, 2011"
 description: "Original article from my WordPress blog: Eternal Glory."
 wordpressLink: "https://xerk.wordpress.com/2011/02/18/eternal-glory/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 Everyday there are many people born. Getting into statistics is useless. They say in India there are six births per second. While the death rate is much lower it is also a fact that most people are lost in time without knowing what hit them.

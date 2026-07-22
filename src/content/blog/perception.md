@@ -4,7 +4,6 @@ pubDate: "2012-02-09T21:42:25+05:30"
 friendlyDate: "February 9, 2012"
 description: "Original article from my WordPress blog: Perception."
 wordpressLink: "https://xerk.wordpress.com/2012/02/09/perception/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 Life is a very frustrating experience. There are ups, there are downs and there rock bottoms. The direction you are gliding out of and heading towards are very important detrimental factors everyday.

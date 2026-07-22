@@ -1,0 +1,55 @@
+---
+// src/pages/reads/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const reads = await getCollection('reads');
+// Sort chronologically (newest first)
+const sortedReads = reads.sort((a, b) => {
+  return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+});
+---
+
+<BaseLayout 
+  title="Recommended Reading — Pranay" 
+  description="A curated collection of articles, papers, and essays recommended by Pranay with takeaways and notes."
+>
+  <section class="reads-archive-section">
+    <header class="page-intro">
+      <h1 class="page-title">Recommended Reading</h1>
+      <p class="page-description">
+        A curated archive of high-signal essays, papers, and articles I've read and recommend, along with key takeaways and commentary.
+      </p>
+    </header>
+
+    <div class="reads-list">
+      {sortedReads.map((item) => {
+        const dateObj = new Date(item.data.pubDate);
+        const formattedDate = dateObj.toISOString().split('T')[0];
+
+        return (
+          <article class="read-card">
+            <div class="read-header">
+              <span class="read-date">{formattedDate}</span>
+              <span class="read-author">{item.data.author} &middot; <span class="read-domain">{item.data.domain}</span></span>
+            </div>
+            <h2 class="read-title">
+              <a href={`/reads/${item.id}`} class="read-title-link">
+                {item.data.title}
+              </a>
+            </h2>
+            <p class="read-takeaway">
+              "{item.data.takeaway}"
+            </p>
+            <div class="read-actions">
+              <a href={`/reads/${item.id}`} class="read-permalink">My Notes &rarr;</a>
+              <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="read-external-link">
+                Original Source <span class="external-icon">&nearr;</span>
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

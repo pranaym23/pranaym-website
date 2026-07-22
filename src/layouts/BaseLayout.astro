@@ -5,12 +5,24 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  ogImage?: string;
 }
 
-const { 
-  title = "Pranay — Founder & Writer", 
-  description = "Personal website, story, and writing of Pranay." 
+const {
+  title = "Pranay — Founder & Writer",
+  description = "Personal website, story, and writing of Pranay.",
+  canonical,
+  ogType = 'website',
+  publishedTime,
+  ogImage = 'https://pranaym.com/images/portrait.png',
 } = Astro.props;
+
+// Derive the canonical/OG URL from the current page so each route is self-canonical,
+// with an optional per-page override.
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 ---
 
 <!DOCTYPE html>
@@ -32,15 +44,18 @@ const {
   <meta name="description" content={description} />
   
   <!-- SEO Best Practices -->
-  <link rel="canonical" href="https://pranaym.com" />
+  <link rel="canonical" href={canonicalUrl} />
   <meta name="robots" content="index, follow" />
-  
+
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:url" content="https://pranaym.com" />
-  <meta property="og:image" content="https://pranaym.com/images/portrait.png" />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImage} />
+  {ogType === 'article' && publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )}
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
@@ -152,15 +167,17 @@ const {
   </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
   <div class="container">
     <!-- Global Minimal Header -->
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="logo">Pranay Mehrotra</a>
-        <nav>
+        <nav aria-label="Primary">
           <ul class="nav-links">
-            <li><a href="/about">About</a></li>
-            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about" aria-current={Astro.url.pathname === '/about' ? 'page' : undefined}>About</a></li>
+            <li><a href="/blog" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a></li>
+            <li><a href="/reads" aria-current={Astro.url.pathname.startsWith('/reads') ? 'page' : undefined}>Reads</a></li>
             <li>
               <div class="toggle-switch" title="Toggle dark/light mode">
                 <input type="checkbox" id="color-mode" name="Color Mode" class="toggle-checkbox" aria-label="Toggle dark/light mode">
@@ -173,7 +190,7 @@ const {
     </header>
 
     <!-- Dynamic Slot for Page Contents -->
-    <main>
+    <main id="main-content">
       <slot />
     </main>
 
@@ -182,7 +199,7 @@ const {
       <div class="footer-inner">
         <p class="footer-copy">&copy; {new Date().getFullYear()} Pranay. Built with Astro.</p>
         <div>
-          <a href="/llms.txt" class="ai-bot-link" target="_blank">
+          <a href="/llms.txt" class="ai-bot-link" target="_blank" rel="noopener noreferrer">
             <span>🤖 llms.txt — Optimized for AI Crawlers</span>
           </a>
         </div>

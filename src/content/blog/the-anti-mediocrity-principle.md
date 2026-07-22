@@ -4,7 +4,6 @@ pubDate: "2010-10-02T00:08:37+05:30"
 friendlyDate: "October 2, 2010"
 description: "Original article from my WordPress blog: The Anti-Mediocrity Principle."
 wordpressLink: "https://xerk.wordpress.com/2010/10/02/the-anti-mediocrity-principle/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 We are witnessing the new-age Renaissance.

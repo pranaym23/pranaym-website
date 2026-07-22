@@ -4,7 +4,6 @@ pubDate: "2022-01-03T11:01:17.288Z"
 friendlyDate: "January 03, 2022"
 description: "Creator economics, network effects and a decentralised future This essay analyses how some of the largest businesses in the world have thought about network effects, why it seems to not be …"
 wordpressLink: "https://medium.com/cryptostars/creator-economics-network-effects-and-a-decentralised-future-498b0877df83"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 

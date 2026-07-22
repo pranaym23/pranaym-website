@@ -4,7 +4,6 @@ pubDate: "2018-05-01T12:00:00Z"
 friendlyDate: "May 1, 2018"
 description: "Original article from my LinkedIn: Technophobia vs AI: Are We Handing Over the Keys?"
 wordpressLink: "https://www.linkedin.com/pulse/technophobia-vs-ai-we-handing-over-keys-pranay-mehrotra/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 ![Clickbait image sourced from Google](/images/technophobia-vs-ai-img-1.jpg)

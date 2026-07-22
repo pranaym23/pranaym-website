@@ -2,8 +2,8 @@
 // src/pages/index.astro
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import fs from 'fs';
-import path from 'path';
+
+export const prerender = true;
 
 const posts = await getCollection('blog');
 // Sort posts by publication date in descending order (newest first)
@@ -11,22 +11,22 @@ const sortedPosts = posts.sort((a, b) => {
   return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
 });
 
-// Dynamic reading of optimized WebP images in the production folder
-const imagesDir = path.resolve('./public/images');
-let webpImages = [];
-try {
-  if (fs.existsSync(imagesDir)) {
-    webpImages = fs.readdirSync(imagesDir)
-      .filter(file => file.endsWith('.webp') && !file.startsWith('.'))
-      .sort() // Keeps them in their sorted order (photo-001, photo-002, etc.)
-      .map(file => `/images/${file}`);
-  }
-} catch (error) {
-  console.error('Error reading optimized images directory:', error);
-}
+const reads = await getCollection('reads');
+// Sort recommended reads chronologically (newest first)
+const sortedReads = reads.sort((a, b) => {
+  return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+});
+
+// Dynamic reading of optimized WebP images in the production folder via Vite
+const imageModules = import.meta.glob('/public/images/*.webp', { eager: true });
+const webpImages = Object.keys(imageModules)
+  .map(file => file.replace('/public', ''))
+  .sort();
 ---
 
 <BaseLayout>
+  <h1 class="sr-only">Pranay Mehrotra — Tech Founder & Writer</h1>
+
   <!-- Short Profile Section -->
   <section class="profile-intro">
     <div class="profile-grid">
@@ -70,7 +70,8 @@ try {
       </h2>
       <div class="photo-reel">
         {webpImages.map((imagePath) => {
-          const baseName = path.basename(imagePath, '.webp');
+          const fileName = imagePath.split('/').pop() || '';
+          const baseName = fileName.replace(/\.webp$/i, '');
           
           // Parse the location slug out of the filename
           // e.g., pranay-m-travel-photography-edinburgh-scotland-uk-01 -> locationPart = ['edinburgh', 'scotland', 'uk']
@@ -99,11 +100,42 @@ try {
 
           return (
             <div class="photo-card">
-              <img src={imagePath} alt={altText} loading="lazy" />
+              <img src={imagePath} alt={altText} width="260" height="325" loading="lazy" decoding="async" />
               <div class="photo-caption">{captionText}</div>
             </div>
           );
         })}
+      </div>
+    </section>
+  )}
+
+  <!-- Recommended Reading Section -->
+  {sortedReads.length > 0 && (
+    <section class="archive-section" id="recommended-reading">
+      <h2>Recommended Reading</h2>
+      <div class="home-reads-list">
+        {sortedReads.slice(0, 4).map((item) => {
+          const dateObj = new Date(item.data.pubDate);
+          const formattedDate = dateObj.toISOString().split('T')[0];
+
+          return (
+            <div class="home-read-item">
+              <div class="read-meta-line">
+                <span class="read-date">{formattedDate}</span>
+                <span class="read-author-domain">{item.data.author} &middot; {item.data.domain}</span>
+              </div>
+              <h3 class="read-item-title">
+                <a href={`/reads/${item.id}`} class="read-title-link">
+                  {item.data.title}
+                </a>
+              </h3>
+              <p class="read-mini-takeaway">"{item.data.takeaway}"</p>
+            </div>
+          );
+        })}
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <a href="/reads" class="view-all-link">View all recommended reads &rarr;</a>
       </div>
     </section>
   )}
@@ -136,14 +168,12 @@ try {
 
   <!-- Client-side Shuffling and Auto-scrolling Script -->
   <script>
-    // 1. Force the browser to disable automatic scroll position restoration on refresh
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       const reel = document.querySelector('.photo-reel') as HTMLElement;
       if (!reel) return;
+
+      // Respect users who prefer reduced motion: keep manual scrolling, skip auto-scroll.
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // Disable layout behaviors that trigger browser scroll anchoring/snapping adjustments during shuffling
       reel.style.scrollBehavior = 'auto';
@@ -183,7 +213,7 @@ try {
       let isPaused = false;
 
       function startAutoScroll(initialDelay = 2000, recurringDelay = 2000) {
-        if (isPaused) return;
+        if (isPaused || prefersReducedMotion) return;
         
         // Use a setTimeout for the first transition delay
         startTimeout = setTimeout(() => {
@@ -236,6 +266,26 @@ try {
         isPaused = true;
         stopAutoScroll();
       }, { passive: true });
+
+      // Pause auto-scroll while keyboard focus is inside the reel (a11y).
+      reel.addEventListener('focusin', () => {
+        isPaused = true;
+        stopAutoScroll();
+      }, { passive: true });
+
+      reel.addEventListener('focusout', () => {
+        isPaused = false;
+        startAutoScroll(2000, 2000);
+      }, { passive: true });
+
+      // Pause when the tab is hidden; resume when it becomes visible again.
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopAutoScroll();
+        } else if (!isPaused) {
+          startAutoScroll(2000, 2000);
+        }
+      });
     });
   </script>
 </BaseLayout>

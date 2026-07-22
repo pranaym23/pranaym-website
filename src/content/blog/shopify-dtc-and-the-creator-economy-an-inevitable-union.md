@@ -4,7 +4,6 @@ pubDate: "2022-12-14T03:26:26.371Z"
 friendlyDate: "December 14, 2022"
 description: "Shopify, DTC and the Creator Economy — an Inevitable Union Shopify claim to make commerce better for everyone. Despite the fact that $SHOP is trading 75% below where they were exactly a year ago, I …"
 wordpressLink: "https://xerk.medium.com/shopify-dtc-and-the-creator-economy-an-inevitable-union-21d865ee4e01"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 ## Shopify claim to make commerce better for everyone. Despite the fact that $SHOP is trading 75% below where they were exactly a year ago, I (and nearly 6 million stores using the Shopify platform) believe that they deliver on their promise.

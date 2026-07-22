@@ -4,7 +4,6 @@ pubDate: "2016-05-22T12:03:30+05:30"
 friendlyDate: "May 22, 2016"
 description: "Original article from my WordPress blog: Glimpses of an Old Friend."
 wordpressLink: "https://xerk.wordpress.com/2016/05/22/glimpses-of-an-old-friend/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 They say age is a disease and can be prevented but isn’t life and age the same thing? You can’t live life without ageing nor can you age without adding new pages to the journey called life.

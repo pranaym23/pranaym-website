@@ -4,7 +4,6 @@ pubDate: "2011-01-11T02:50:47+05:30"
 friendlyDate: "January 11, 2011"
 description: "Original article from my WordPress blog: Holy Wars."
 wordpressLink: "https://xerk.wordpress.com/2011/01/11/holy-wars/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 I wish I could do it. I wish you could do it. I wish everybody could do it. But everybody is worried about society.

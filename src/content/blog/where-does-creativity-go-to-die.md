@@ -4,7 +4,6 @@ pubDate: "2018-04-27T12:00:00Z"
 friendlyDate: "April 27, 2018"
 description: "Original article from my LinkedIn: Where Does Creativity go to Die?"
 wordpressLink: "https://www.linkedin.com/pulse/where-does-creativity-go-die-pranay-mehrotra/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 ![Cover image: Where Does Creativity go to Die?](/images/where-does-creativity-go-to-die-img-1.jpg)

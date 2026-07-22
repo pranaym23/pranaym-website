@@ -7,15 +7,30 @@ const title = frontmatter?.title || Astro.props.title;
 const friendlyDate = frontmatter?.friendlyDate || Astro.props.friendlyDate;
 const description = frontmatter?.description || Astro.props.description;
 const wordpressLink = frontmatter?.wordpressLink || Astro.props.wordpressLink;
+const pubDate = frontmatter?.pubDate || Astro.props.pubDate;
+const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
 ---
 
-<BaseLayout title={`${title} — Pranay`} description={description}>
+<BaseLayout
+  title={`${title} — Pranay`}
+  description={description}
+  ogType="article"
+  publishedTime={isoDate}
+>
   <article class="post-container">
     <a href="/blog" class="back-link">&larr; Back to writing</a>
-    
+
     <header class="post-header">
       <h1>{title}</h1>
-      <div class="post-date">{friendlyDate}</div>
+      <div class="post-date">
+        {isoDate ? <time datetime={isoDate}>{friendlyDate}</time> : friendlyDate}
+      </div>
+      {wordpressLink && (
+        <p class="post-source-note">
+          Originally published on
+          <a href={wordpressLink} target="_blank" rel="noopener noreferrer">WordPress</a>
+        </p>
+      )}
     </header>
     <div class="post-body">
       <slot />

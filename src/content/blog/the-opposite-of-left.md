@@ -4,7 +4,6 @@ pubDate: "2011-06-11T07:16:13+05:30"
 friendlyDate: "June 11, 2011"
 description: "Original article from my WordPress blog: The Opposite of Left."
 wordpressLink: "https://xerk.wordpress.com/2011/06/11/the-opposite-of-left/"
-layout: "../../layouts/BlogPostLayout.astro"
 ---
 
 What is right? It never had a clear definition. Today, it is as obscure as it ever was. There is nothing that you can say or do which will be right, even from your own point of view, unless in a definite time frame. The wind of change has erased the very concept of right, and in the process, wrong as well.
