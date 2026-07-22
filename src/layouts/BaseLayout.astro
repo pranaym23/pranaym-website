@@ -88,6 +88,68 @@ const {
       ]
     }
   </script>
+
+  <!-- Color Mode Script (Anti-FOUC) -->
+  <script is:inline>
+    (function() {
+      function setColorMode(isLight, savePreference = true) {
+        document.documentElement.classList.toggle('light-mode', isLight);
+        const checkbox = document.getElementById('color-mode');
+        if (checkbox) {
+          checkbox.checked = isLight;
+        }
+        if (savePreference) {
+          localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+      }
+
+      const savedTheme = localStorage.getItem('theme');
+      let prefersLight;
+      let usingOSPreference = false;
+
+      if (savedTheme !== null) {
+        prefersLight = savedTheme === 'light';
+      } else {
+        const prefersColorScheme = window.matchMedia('(prefers-color-scheme: light)');
+        prefersLight = prefersColorScheme.matches;
+        usingOSPreference = true;
+      }
+
+      setColorMode(prefersLight, !usingOSPreference);
+
+      function initToggle() {
+        const checkbox = document.getElementById('color-mode');
+        if (checkbox) {
+          checkbox.checked = document.documentElement.classList.contains('light-mode');
+          checkbox.addEventListener('change', function() {
+            usingOSPreference = false;
+            setColorMode(this.checked);
+          });
+          const toggleLabel = document.querySelector('.toggle-label');
+          if (toggleLabel) {
+            setTimeout(function() {
+              toggleLabel.classList.add('has-transition');
+            }, 100);
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', initToggle);
+      } else {
+        initToggle();
+      }
+
+      document.addEventListener('astro:after-swap', initToggle);
+
+      const prefersColorScheme = window.matchMedia('(prefers-color-scheme: light)');
+      prefersColorScheme.addEventListener('change', (e) => {
+        if (usingOSPreference) {
+          setColorMode(e.matches, false);
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
@@ -99,6 +161,12 @@ const {
           <ul class="nav-links">
             <li><a href="/about">About</a></li>
             <li><a href="/blog">Blog</a></li>
+            <li>
+              <div class="toggle-switch" title="Toggle dark/light mode">
+                <input type="checkbox" id="color-mode" name="Color Mode" class="toggle-checkbox" aria-label="Toggle dark/light mode">
+                <label for="color-mode" class="toggle-label"></label>
+              </div>
+            </li>
           </ul>
         </nav>
       </div>
