@@ -1,22 +1,45 @@
 /* src/styles/global.css */
 
-/* Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
+/* Fonts Import - Google Fonts Newsreader & Inter */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  --bg: #09090b; /* Zinc 950 */
-  --text-main: #d4d4d8; /* Zinc 300 */
-  --text-strong: #f4f4f5; /* Zinc 100 */
-  --text-dim: #71717a; /* Zinc 500 */
-  --text-muted: #52525b; /* Zinc 600 */
-  --border: #27272a; /* Zinc 800 */
-  --border-subtle: #18181b; /* Zinc 900 */
-  --accent: #e4e4e7; /* Zinc 200 */
+  /* Dario Amodei Warm Dark Palette */
+  --bg: #1f1e1d; /* Slate Dark Charcoal */
+  --text-main: #f0eee6; /* Warm Ivory Medium */
+  --text-strong: #faf9f5; /* Warm Ivory Light */
+  --text-dim: #b0aea5; /* Cloud Medium */
+  --text-muted: #87867f; /* Cloud Dark */
+  --border: #3d3d3a; /* Slate Medium */
+  --border-subtle: #2d2c29; /* Slate Subtle */
+  --accent: #faf9f5;
+  --header-bg: #1f1e1d;
   
+  --toggle-track-bg: #faf9f5;
+  --toggle-track-border: #faf9f5;
+  --toggle-thumb-bg: #1f1e1d;
+
   --max-width: 680px;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'Newsreader', Georgia, serif; /* Dario's editorial serif style for reading */
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Light Mode Theme (Dario Amodei Signature Warm Paper Ivory) */
+html.light-mode {
+  --bg: #f0eee6; /* Warm Paper Ivory */
+  --text-main: #1f1e1d; /* Slate Dark Charcoal */
+  --text-strong: #141413; /* Deep Charcoal */
+  --text-dim: #5e5d59; /* Slate Light */
+  --text-muted: #87867f; /* Cloud Dark */
+  --border: #d1cfc5; /* Cloud Light Warm Border */
+  --border-subtle: #e8e6dc; /* Ivory Dark Border */
+  --accent: #1f1e1d;
+  --header-bg: #f0eee6;
+
+  --toggle-track-bg: #faf9f5;
+  --toggle-track-border: #1f1e1d;
+  --toggle-thumb-bg: #1f1e1d;
 }
 
 /* Base resets */
@@ -29,12 +52,13 @@
 html {
   background-color: var(--bg);
   color: var(--text-main);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.6;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 body {
@@ -42,7 +66,8 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 1.5rem 2rem 1.5rem;
-  background: radial-gradient(circle at 50% -20%, rgba(39, 39, 42, 0.15) 0%, rgba(9, 9, 11, 0) 65%), var(--bg);
+  background-color: var(--bg);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Standard single column container */
@@ -52,45 +77,46 @@ body {
   margin: 0 auto;
 }
 
-/* Header & Logo styling */
+/* Header & Logo styling - Clean, seamless header with NO borders */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgba(9, 9, 11, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: var(--header-bg);
   padding-top: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 4rem;
+  border-bottom: none; /* No border box or line across header */
+  margin-bottom: 3.5rem;
+  transition: background-color 0.25s ease;
 }
 
 .header-inner {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 .logo {
   font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-strong);
   text-decoration: none;
 }
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
   list-style: none;
 }
 
 .nav-links a {
-  font-size: 0.9rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
   color: var(--text-dim);
   text-decoration: none;
   transition: color 0.2s ease;
@@ -101,6 +127,61 @@ body {
   color: var(--text-strong);
 }
 
+/* Toggle Switch (Dario Amodei Style) */
+.toggle-switch {
+  width: 40px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+.toggle-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-label {
+  position: absolute;
+  inset: 0;
+  width: 40px;
+  height: 20px;
+  border: 1px solid var(--toggle-track-border);
+  background-color: var(--toggle-track-bg);
+  border-radius: 2rem;
+  cursor: pointer;
+  margin-bottom: 0;
+  padding: 0;
+  display: block;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.toggle-label::before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--toggle-thumb-bg);
+  border-radius: 50%;
+}
+
+.toggle-label.has-transition::before {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.toggle-checkbox:checked + .toggle-label::before {
+  transform: translateX(20px);
+}
+
+.toggle-switch .toggle-checkbox:focus-visible + .toggle-label {
+  outline: 2px solid var(--text-strong);
+  outline-offset: 2px;
+}
+
 /* Main typography & elements */
 main {
   flex-grow: 1;
@@ -109,7 +190,7 @@ main {
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   color: var(--text-strong);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -126,6 +207,9 @@ h2 {
 }
 
 p {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.6;
   margin-bottom: 1.25rem;
 }
 
@@ -158,16 +242,10 @@ a:hover {
 }
 
 .profile-intro p {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   color: var(--text-main);
-  line-height: 1.8;
-}
-
-.profile-intro p.lead {
-  font-size: 1.2rem;
-  color: var(--text-strong);
-  margin-bottom: 1.5rem;
   line-height: 1.6;
+  margin-bottom: 1.25rem;
 }
 
 .profile-image-container {
