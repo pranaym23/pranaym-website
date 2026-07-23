@@ -1,0 +1,18 @@
+---
+title: "Intel's Haswell CPU Microarchitecture"
+author: "David Kanter"
+domain: "realworldtech.com"
+url: "https://www.realworldtech.com/haswell-cpu/"
+pubDate: 2012-02-09
+takeaway: "A legendary, extremely comprehensive technical deep-dive into Intel's Haswell architecture, focusing on the power-efficiency microarchitectural changes Intel made to defend its PC and server territories against mobile..."
+---
+
+As a software engineer who frequently builds high-throughput backend services, reading David Kanter’s meticulous analysis of Intel’s Haswell microarchitecture takes me right back to the trenches. Haswell represented a massive pivot for Intel, focusing aggressively on power efficiency and low idle states to ward off the rise of mobile ARM processors. It is a sobering reminder that computing is never just about pure throughput; the thermal envelope and power budget dictate what is actually possible. Kanter’s deep dive into execution ports and branch prediction highlights how much physical and engineering complexity is masked by our high-level programming abstractions.
+
+For startup founders today, the Haswell saga offers a profound lesson on defending legacy turf against disruptive outsiders. Intel saw the writing on the wall with mobile and was forced to redesign its core architecture to survive in a low-power world. In our own work, we often write inefficient code assuming modern cloud servers will just absorb the cost, but understanding these hardware bottlenecks is what separates real systems engineering from mere scripting. When we optimize our server fleets or write latency-sensitive database logic, we are standing on the shoulders of these incredible, microscopic hardware triumphs.
+
+### What stuck with me
+
+- **Power envelope constraints**: Designing chips or software under strict physical power limits is the ultimate driver of architectural innovation.
+- **Microarchitectural defense**: Incumbents must be willing to radically re-engineer their core products when a shift like mobile threatens their core market.
+- **Masked physical reality**: Modern software abstractions rely on an incredibly complex layer of execution ports and prediction logic running silently under the hood.

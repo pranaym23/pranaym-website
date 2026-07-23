@@ -1,0 +1,17 @@
+---
+title: "Prompt injection attacks against GPT-3"
+author: "Simon Willison"
+domain: "simonwillison.net"
+url: "https://simonwillison.net/2022/Sep/12/prompt-injection/"
+pubDate: 2022-11-26
+takeaway: "The seminal blog post that defined and popularized the term 'prompt injection,' explaining the profound security and architectural implications of build-on-top LLM economics where instruction and data are mixed in nat..."
+---
+
+As soon as Simon Willison published this post on prompt injection, the entire software security landscape shifted. For decades, engineers have relied on a strict separation between code and data—think SQL parameters or escaped HTML. But in the world of large language models, our "code" (the system prompt) and our "data" (user inputs or scraped web text) are fed into the exact same context window as a single, combined stream of natural language. Willison made it clear that this isn't just a minor bug we can patch with a simple regex; it is a foundational, architectural vulnerability inherent to how neural networks process text.
+
+For anyone building LLM-backed applications, this post is a vital reminder of the danger of naive implementation. If an external, untrusted input can overwrite your app’s internal instructions, you have effectively built a system that can be remotely hijacked by anyone who can write a clever paragraph. We are building in a paradigm where the UI is natural language, which means our attack surface is as infinite as human expression. Overcoming this requires a complete shift in our engineering mindset, forcing us to treat LLMs as untrusted sandboxes and to implement strict, multi-layered defensive boundaries.
+
+### What stuck with me
+* **No clear separation**: The fundamental vulnerability of LLMs is that instructions and untrusted data are processed together as a single text stream.
+* **Infinite attack surface**: Because inputs are written in natural language, standard deterministic defenses like input escaping are highly ineffective.
+* **Sandbox architecture needed**: Developers must treat LLM outputs as untrusted code execution and design strict, sandboxed boundaries around their operations.
