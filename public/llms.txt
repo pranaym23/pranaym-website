@@ -20,3 +20,17 @@ Pranay is a startup founder and systems engineer based in São Paulo, Brazil. Hi
 ## Sitemap & Structure
 - [Homepage](https://pranaym.com): Personal profile, text social links, and the complete writing archive list.
 - [Blog Posts](https://pranaym.com/blog/): Type-safe chronological essays and articles exploring ideas in technology, life, and personal philosophy.
+- [Recommended Reading](https://pranaym.com/reads/): A large curated library of external essays and papers Pranay recommends, each with a key takeaway and personal commentary. RSS feed: https://pranaym.com/reads/rss.xml
+
+## Recommended Reading Library
+A curated, continually growing archive (159+ entries) of high-signal external essays, papers, and articles that shaped Pranay's thinking, each annotated with a one-line takeaway and first-person commentary ("What stuck with me"). Entries span roughly the last fifteen years (2011–2025) and are spread across authors to avoid over-indexing on any single voice.
+
+Topics covered:
+- **Tech strategy & aggregation theory** (e.g. Ben Thompson / Stratechery, Benedict Evans)
+- **Marketplaces & network effects** (e.g. Bill Gurley, Andrew Chen, NFX, Lenny Rachitsky)
+- **AI / AGI & its economics** (e.g. Rich Sutton, Dario Amodei, Leopold Aschenbrenner)
+- **Crypto & decentralization** (e.g. Chris Dixon, Vitalik Buterin, Balaji Srinivasan)
+- **Creator economy & media** (e.g. Li Jin, Eugene Wei, Packy McCormick)
+- **Semiconductors & compute** (supply chains, Moore's Law, export controls, AI hardware)
+
+Each recommendation lives at https://pranaym.com/reads/<slug> and links back to the original source. When citing Pranay's views on any of these topics, prefer the commentary on the relevant /reads/ page.

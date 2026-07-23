@@ -1,0 +1,32 @@
+---
+// src/components/ReadCard.astro — a single Recommended Reading card.
+import type { CollectionEntry } from 'astro:content';
+interface Props { item: CollectionEntry<'reads'>; }
+const { item } = Astro.props;
+const formattedDate = new Date(item.data.pubDate).toISOString().split('T')[0];
+---
+
+<article class="read-card">
+  <div class="read-header">
+    <img
+      class="read-favicon"
+      src={`https://www.google.com/s2/favicons?domain=${item.data.domain}&sz=32`}
+      alt={`${item.data.domain} favicon`}
+      width="16"
+      height="16"
+      loading="lazy"
+    />
+    <span class="read-date">{formattedDate}</span>
+    <span class="read-author">{item.data.author} &middot; <span class="read-domain">{item.data.domain}</span></span>
+  </div>
+  <h2 class="read-title">
+    <a href={`/reads/${item.id}`} class="read-title-link">{item.data.title}</a>
+  </h2>
+  <p class="read-takeaway">{item.data.takeaway}</p>
+  <div class="read-actions">
+    <a href={`/reads/${item.id}`} class="read-permalink">My Notes &rarr;</a>
+    <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="read-external-link">
+      Original Source <span class="external-icon">&nearr;</span>
+    </a>
+  </div>
+</article>

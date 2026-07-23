@@ -1,0 +1,18 @@
+---
+title: "Majority is not Enough: Bitcoin Mining is Vulnerable"
+author: "Ittay Eyal and Emin Gün Sirer"
+domain: "arxiv.org"
+url: "https://arxiv.org/abs/1311.0243"
+pubDate: 2013-06-04
+takeaway: "Introduced the concept of selfish mining, showing that Bitcoin consensus is not fully incentive-compatible and can be exploited even if attackers have less than 50% hashing power."
+---
+
+Reading this 2013 paper by Eyal and Sirer felt like watching a beautifully constructed proof expose a critical, hidden vulnerability in something everyone assumed was indestructible. Before this work, the general consensus in the crypto community was that Bitcoin’s incentives were fully aligned as long as no single entity controlled more than half of the network's hash rate. By introducing the concept of "selfish mining," where a miner holds back discovered blocks to create a private chain, the authors shattered that assumption. They proved that even a minority miner can systematically earn more than their fair share of rewards, throwing the incentive-compatibility of Nakamoto consensus into question.
+
+For an engineer, this is a masterclass in game theory and protocol design. It shows that security isn't just about cryptographic primitives or simple majority rule; it's about how rational agents react under complex feedback loops. When selfish mining becomes more profitable, it creates a dangerous incentive for honest miners to join the selfish pool, leading to eventual centralization. In startup land, we often design features assuming users will behave exactly as we expect. This paper is a stark reminder that if there is a game-theoretic loophole to exploit, someone will eventually find it and exploit it to its absolute limit.
+
+### What stuck with me
+
+- **Selfish mining exploit**: A rogue miner can selectively withhold blocks to invalidate honest blocks and claim disproportionate block rewards.
+- **Lower security threshold**: The network is theoretically vulnerable to incentive manipulation even if an attacker controls as little as one-third of the hashing power.
+- **Centralization pressure loops**: Rational, profit-seeking miners are economically incentivized to join the selfish coalition, which accelerates the centralization of hash power.

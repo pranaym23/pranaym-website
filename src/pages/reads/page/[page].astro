@@ -1,0 +1,71 @@
+---
+// src/pages/reads/page/[page].astro — pages 2..N of Recommended Reading.
+// Page 1 lives at /reads (see ../index.astro).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ReadCard from '../../../components/ReadCard.astro';
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 24;
+  const reads = await getCollection('reads');
+  const sorted = reads.sort(
+    (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  );
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    paths.push({
+      params: { page: String(p) },
+      props: {
+        items: sorted.slice((p - 1) * PAGE_SIZE, p * PAGE_SIZE),
+        page: p,
+        totalPages,
+        total: sorted.length,
+        startIndex: (p - 1) * PAGE_SIZE,
+      },
+    });
+  }
+  return paths;
+}
+
+const { items, page, totalPages, total, startIndex } = Astro.props;
+const prevHref = page === 2 ? '/reads' : `/reads/page/${page - 1}`;
+const nextHref = page < totalPages ? `/reads/page/${page + 1}` : null;
+
+const itemListJson = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `Recommended Reading — Pranay (page ${page})`,
+  numberOfItems: total,
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: startIndex + i + 1,
+    url: `https://pranaym.com/reads/${item.id}`,
+    name: item.data.title,
+  })),
+};
+---
+
+<BaseLayout
+  title={`Recommended Reading — Pranay (page ${page})`}
+  description="A curated collection of articles, papers, and essays recommended by Pranay with takeaways and notes."
+>
+  <section class="reads-archive-section">
+    <header class="page-intro">
+      <h1 class="page-title">Recommended Reading</h1>
+      <p class="page-description">Page {page} of {totalPages}.</p>
+    </header>
+
+    <div class="reads-list">
+      {items.map((item) => <ReadCard item={item} />)}
+    </div>
+
+    <nav class="reads-pagination" aria-label="Recommended Reading pages">
+      <a rel="prev" class="pagination-prev" href={prevHref}>&larr; Previous</a>
+      <span class="pagination-status">Page {page} of {totalPages}</span>
+      {nextHref && <a rel="next" class="pagination-next" href={nextHref}>Next &rarr;</a>}
+    </nav>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(itemListJson)} is:inline />
+</BaseLayout>

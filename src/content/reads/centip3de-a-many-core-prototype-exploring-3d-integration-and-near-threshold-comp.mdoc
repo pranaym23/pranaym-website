@@ -1,0 +1,18 @@
+---
+title: "Centip3De: A Many-Core Prototype Exploring 3D Integration and Near-Threshold Computing"
+author: "Ronald G. Dreslinski, David Fick, Bharan Giridhar, Gireesh Kumari, Dennis Sylvester, David Blaauw"
+domain: "dl.acm.org"
+url: "https://dl.acm.org/doi/10.1145/2500889"
+pubDate: 2013-09-18
+takeaway: "Discusses the design of Centip3De, a groundbreaking 3D integrated many-core hardware prototype running at near-threshold voltages to achieve superior energy efficiency per unit area."
+---
+
+As someone building software, it is incredibly easy to take the physical layering of hardware for granted. The Centip3De prototype, with its vertical 3D integration and near-threshold voltage scaling, feels like a masterclass in challenging fundamental assumptions. Instead of just packing more cores horizontally and hitting a thermal wall, stacking them vertically while scaling the voltage down to near-threshold levels opens up a whole new design space. It forces you to think about how much performance we leave on the table by adhering to standard planar layouts and conventional voltage levels.
+
+What really resonates here is the focus on energy efficiency per unit area rather than raw clock speed. In a startup, we often default to scaling horizontally—more servers, more memory, more threads—without asking if we are using our existing footprint efficiently. Centip3De shows that by rethinking the physical topology and coupling it with aggressive low-voltage operation, you can unlock orders of magnitude of efficiency. It makes me wonder if our software layers are overdue for a similar vertical integration, where database, cache, and business logic are stacked more tightly to avoid the latency of horizontal network hops.
+
+### What stuck with me
+
+- **Vertical stack advantage**: Stacking cores in three dimensions significantly reduces interconnect length and physical footprint while increasing throughput density.
+- **Near-threshold efficiency**: Operating near the transistor's threshold voltage dramatically cuts active power consumption at the cost of modest frequency degradation.
+- **Coordinated power delivery**: Managing power and heat across layered dies requires complex, multi-tiered power delivery networks that must be co-designed with the physical assembly.

@@ -1,0 +1,18 @@
+---
+title: "The Hardware Lottery"
+author: "Sara Hooker"
+domain: "arxiv.org"
+url: "https://arxiv.org/abs/1912.00164"
+pubDate: 2019-03-10
+takeaway: "An essay arguing that the direction of machine learning research is heavily constrained and guided by which ideas happen to run efficiently on current hardware architectures."
+---
+
+Sara Hooker's "The Hardware Lottery" is one of those rare essays that completely reframes how you look at the entire history of computer science. As software founders, we like to believe that the best, most elegant ideas naturally win out in the marketplace of ideas. But Hooker elegantly demonstrates that the success of an algorithm is often decided not by its inherent intellectual superiority, but by its compatibility with the dominant hardware of its time. Modern deep learning succeeded largely because its matrix multiplication operations mapped perfectly to GPUs, which were already highly optimized for video gaming, while alternative approaches like neuromorphic computing or symbolic AI were left behind.
+
+This concept of a hardware lottery is incredibly important when designing our startup’s tech stack and long-term research direction. It suggests that we might be ignoring highly promising software solutions simply because they run poorly on standard CPU/GPU setups in AWS. By anchoring our roadmap entirely to what is easy to run today, we might be lock-in victims of current hardware architectures. It challenges us to look beyond immediate efficiency metrics and actively explore how custom accelerators or specialized chips could breathe new life into currently "unviable" algorithms, potentially giving us a massive competitive advantage.
+
+### What stuck with me
+
+- **Path dependency constraints**: Algorithms that run efficiently on prevailing hardware architectures receive disproportionate funding and research, while alternative approaches languish.
+- **Hardware-software lock-in**: Our current machine learning ecosystem is built on a feedback loop where software is tailored to GPUs, which in turn drives the design of next-generation GPUs.
+- **Lost algorithmic opportunities**: Highly promising computational models are likely being discarded prematurely because they cannot compete with the heavily optimized execution speeds of GPUs.

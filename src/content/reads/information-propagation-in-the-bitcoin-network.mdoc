@@ -1,0 +1,18 @@
+---
+title: "Information Propagation in the Bitcoin Network"
+author: "Christian Decker and Roger Wattenhofer"
+domain: "ieeexplore.ieee.org"
+url: "https://ieeexplore.ieee.org/document/6688704"
+pubDate: 2013-05-25
+takeaway: "An empirical study analyzing network propagation delays in the peer-to-peer network and their impact on consensus and forks."
+---
+
+I've spent a lot of time debugging distributed consensus issues in our own stack, but reading Decker and Wattenhofer's 2013 paper on Bitcoin's propagation delays brings the scale of the challenge into sharp focus. In the early days of building systems, we often assume a uniform, instantaneous network, yet the physical reality of packets traversing global peer-to-peer nodes is a messy affair. The authors systematically demonstrate how delays in block propagation directly feed into blockchain forks, exposing a fundamental physical bottleneck that challenges naive assumptions of real-time consistency. It's a sobering reminder that speed isn't just a performance metric; in decentralized systems, latency is security.
+
+As an engineer, what fascinates me here is the tension between block size, propagation time, and network security. When a new node is slow to hear about a block, it keeps mining on an obsolete state, wasting hash power and increasing the probability of accidental chain splits. This isn't just an abstract protocol design concern—it is a lesson in how the physics of network infrastructure dictates the boundaries of trust. If we cannot propagate state changes fast enough, our coordination models break down, forcing us to trade off throughput for system integrity.
+
+### What stuck with me
+
+* **The propagation cost**: Each additional kilobyte of block size or hop in the topology directly escalates the likelihood of blockchain forks.
+* **Consensus is physical**: Network latency is not merely an engineering nuisance but a direct constraint on the system's security budget.
+* **Forks as latency**: Accidental forks are primarily a symptom of information delays rather than malicious behavior.

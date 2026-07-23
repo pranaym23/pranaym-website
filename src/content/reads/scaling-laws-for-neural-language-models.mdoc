@@ -1,0 +1,18 @@
+---
+title: "Scaling Laws for Neural Language Models"
+author: "Jared Kaplan"
+domain: "arxiv.org"
+url: "https://arxiv.org/abs/2001.08361"
+pubDate: 2020-04-28
+takeaway: "Empirically shows language model loss follows power laws in model size, data, and compute across seven orders of magnitude."
+---
+
+This 2020 paper by Jared Kaplan is probably one of the most influential papers of the current era, and reading it feels like inspecting the blueprints of a technological revolution. Before this, model training felt like a dark art, full of hyperparameter tuning and intuition-based design. Kaplan and the OpenAI team proved that language model performance is incredibly predictable, governed by clean, mathematical power laws across model size, dataset size, and compute budget. As an engineer, there is something deeply satisfying about realizing that complexity melts away under the pressure of scale.
+
+For our startup, the strategic takeaways are stark. It tells us that architectural cleverness—finding some novel neural network layer or training trick—is often a waste of time compared to simply feeding more data and compute into a standard Transformer. But it also presents a daunting competitive landscape. If progress is a predictable function of capital and hardware, then small teams must be exceptionally strategic. We cannot compete on raw scale, so we have to excel at building the middleware, fine-tuning mechanisms, and custom data pipelines that sit on top of these giant foundational models.
+
+### What stuck with me
+
+* **Power law predictability**: Language model loss decreases predictably as a power law with respect to compute, dataset size, and parameter count.
+* **Architecture is secondary**: Minor structural tweaks to neural networks yield negligible improvements compared to the massive gains driven by raw scaling.
+* **Overfitting avoidance strategy**: Models should be scaled up in size even if training data is limited, as larger models are more sample-efficient.

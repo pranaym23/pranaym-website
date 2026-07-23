@@ -1,17 +1,36 @@
 ---
-// src/pages/reads/index.astro
+// src/pages/reads/index.astro — page 1 of the paginated Recommended Reading archive.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReadCard from '../../components/ReadCard.astro';
+
+export const PAGE_SIZE = 24;
 
 const reads = await getCollection('reads');
-// Sort chronologically (newest first)
-const sortedReads = reads.sort((a, b) => {
-  return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
-});
+const sorted = reads.sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+const pageItems = sorted.slice(0, PAGE_SIZE);
+
+// ItemList structured data (SEO + GEO): helps search/LLMs enumerate the collection.
+const itemListJson = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Recommended Reading — Pranay',
+  description: 'A curated collection of high-signal essays, papers, and articles with takeaways and commentary.',
+  numberOfItems: sorted.length,
+  itemListElement: pageItems.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://pranaym.com/reads/${item.id}`,
+    name: item.data.title,
+  })),
+};
 ---
 
-<BaseLayout 
-  title="Recommended Reading — Pranay" 
+<BaseLayout
+  title="Recommended Reading — Pranay"
   description="A curated collection of articles, papers, and essays recommended by Pranay with takeaways and notes."
 >
   <section class="reads-archive-section">
@@ -20,44 +39,22 @@ const sortedReads = reads.sort((a, b) => {
       <p class="page-description">
         A curated archive of high-signal essays, papers, and articles I've read and recommend, along with key takeaways and commentary.
       </p>
+      <p class="reads-feed-link">
+        <a href="/reads/rss.xml">RSS feed</a>
+      </p>
     </header>
 
     <div class="reads-list">
-      {sortedReads.map((item) => {
-        const dateObj = new Date(item.data.pubDate);
-        const formattedDate = dateObj.toISOString().split('T')[0];
-
-        return (
-          <article class="read-card">
-            <div class="read-header">
-              <img
-                class="read-favicon"
-                src={`https://www.google.com/s2/favicons?domain=${item.data.domain}&sz=32`}
-                alt={`${item.data.domain} favicon`}
-                width="16"
-                height="16"
-                loading="lazy"
-              />
-              <span class="read-date">{formattedDate}</span>
-              <span class="read-author">{item.data.author} &middot; <span class="read-domain">{item.data.domain}</span></span>
-            </div>
-            <h2 class="read-title">
-              <a href={`/reads/${item.id}`} class="read-title-link">
-                {item.data.title}
-              </a>
-            </h2>
-            <p class="read-takeaway">
-              {item.data.takeaway}
-            </p>
-            <div class="read-actions">
-              <a href={`/reads/${item.id}`} class="read-permalink">My Notes &rarr;</a>
-              <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="read-external-link">
-                Original Source <span class="external-icon">&nearr;</span>
-              </a>
-            </div>
-          </article>
-        );
-      })}
+      {pageItems.map((item) => <ReadCard item={item} />)}
     </div>
+
+    <nav class="reads-pagination" aria-label="Recommended Reading pages">
+      <span class="pagination-status">Page 1 of {totalPages}</span>
+      {totalPages > 1 && (
+        <a rel="next" class="pagination-next" href="/reads/page/2">Next &rarr;</a>
+      )}
+    </nav>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(itemListJson)} is:inline />
 </BaseLayout>

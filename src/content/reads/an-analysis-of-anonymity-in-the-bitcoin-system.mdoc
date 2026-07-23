@@ -1,0 +1,18 @@
+---
+title: "An Analysis of Anonymity in the Bitcoin System"
+author: "Fergal Reid and Martin Harrigan"
+domain: "arxiv.org"
+url: "https://arxiv.org/abs/1107.4524"
+pubDate: 2011-07-05
+takeaway: "An influential analysis mapping the public transaction graph to evaluate and challenge the assumption of total anonymity in decentralized ledgers."
+---
+
+I remember the early days when mainstream media and casual users spoke of Bitcoin as a completely untraceable, anonymous network. This 2011 analysis by Reid and Harrigan was one of the first academic reality checks to systematically dismantle that myth. By carefully mapping the public transaction graph and linking it with external, off-chain data sources, they demonstrated how easily pseudonymous accounts could be deanonymized. It was a fascinating read because it highlighted that public, immutable ledgers are actually a double-edged sword: while they provide transparency and prevent double-spending, they also store a permanent, unalterable trail of breadcrumbs for anyone with a graph-analysis tool.
+
+As a developer, this paper makes me think deeply about data leakage and network analysis. You can have the most robust cryptographic primitives in the world, but if your users’ transaction flows contain structural patterns, those patterns will reveal their identities. Reid and Harrigan showed that passive observers could reconstruct entire profiles of user behavior just by tracking the flow of change addresses and public interactions. This has massive implications for how we design privacy-preserving systems today. True privacy isn't just about hiding names; it's about breaking the deterministic linkages in the data graph itself.
+
+### What stuck with me
+
+- **Pseudonymity vs anonymity**: Pseudonymous addresses are highly vulnerable to deanonymization when linked through transaction network analysis.
+- **Graph mapping vulnerability**: The public transaction ledger acts as a permanent, unalterable database of user behavior that can be crawled and reconstructed.
+- **External data integration**: Integrating off-chain context, like forum posts or merchant records, drastically simplifies the process of identifying anonymous participants.

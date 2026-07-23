@@ -1,0 +1,18 @@
+---
+title: "Beyond the doomsday economics of 'proof-of-work' in cryptocurrencies"
+author: "Raphael Auer"
+domain: "bis.org"
+url: "https://www.bis.org/publ/work765.htm"
+pubDate: 2019-11-18
+takeaway: "An economic analysis from the Bank for International Settlements examining the long-term limits of decentralized consensus based on proof-of-work, focusing on transaction fees and security."
+---
+
+I’ve been thinking a lot about the long-term viability of our backend choices, and reading Auer's economic analysis of proof-of-work consensus was a sobering reality check. From an engineering perspective, we often treat blockchain systems as self-sustaining mathematical architectures, but they are fundamentally bound by economic realities. As block rewards inevitably decay to zero, the reliance on transaction fees alone to secure the network creates a terrifying security trap where the cost of attacking the chain might drop below the value of the assets it protects.
+
+As a founder, this paper forces me to look past the cypherpunk hype of absolute trustlessness and evaluate the actual unit economics of security. If transaction fees must scale exponentially to replace block rewards and keep miners honest, proof-of-work is essentially a system built on a structural deficit. This isn't just an academic debate; it means any decentralized application or platform we build that relies on these base layers is vulnerable to systemic security decay unless the underlying consensus mechanism itself shifts toward more capital-efficient models.
+
+### What stuck with me
+
+- **The security budget**: As mining block rewards decrease, the network must rely entirely on transaction fees to fund the computational security that prevents double-spending attacks.
+- **The transaction bottleneck**: To generate enough fees to sustain robust security, the system must either process an incredibly high volume of transactions or charge exorbitant fees per transaction.
+- **Liquidity versus safety**: The economics suggest that unless decentralized networks can guarantee a stable, massive stream of transaction volume, their security guarantees will inevitably degrade over time.

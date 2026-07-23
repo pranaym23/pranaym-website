@@ -1,0 +1,18 @@
+---
+title: "Different ways to be a layer 2"
+author: "Vitalik Buterin"
+domain: "vitalik.eth.limo"
+url: "https://vitalik.eth.limo/general/2023/10/31/l2types.html"
+pubDate: 2023-07-07
+takeaway: "This article categorizes different L2 scaling solutions and analyzes their decentralization and security trade-offs."
+---
+
+In the web3 world, 'Layer 2' has become a catch-all marketing term, which is why Vitalik Buterin's 2023 breakdown of different L2 scaling strategies is such a breath of fresh air. Instead of accepting the binary division of Layer 1 vs Layer 2, Vitalik introduces a spectrum of scaling structures—ranging from rollups to validiums and optimistic chains. He maps out how each architecture makes specific trade-offs between cost, decentralization, and security. It's a reminder that there is no magic scaling bullet; every design choice relocates risk rather than eliminating it.
+
+This paper is a masterclass in pragmatic systems engineering. For anyone building modern platforms, the lesson here is that our design parameters should be dictated by user-specific risk tolerances. Some applications need the absolute cryptographic security of a rollup, while others can accept the minor trust assumptions of validiums to achieve lower transaction costs. By understanding the spectrum, we can build specialized infrastructure that delivers exactly what the user needs without overpaying for unnecessary consensus guarantees.
+
+### What stuck with me
+
+* **The scaling spectrum**: Layer 2 is not a single architecture but a diverse spectrum ranging from fully trustless rollups to cost-efficient validiums.
+* **Trade-off mapping**: System security and operational costs are locked in a zero-sum relationship, demanding deliberate compromises based on application context.
+* **Data availability limits**: The core bottleneck of scaling decentralized networks is not compute capability, but the availability and security of underlying data.

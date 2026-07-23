@@ -1,0 +1,17 @@
+---
+title: "16 Ways to Measure Network Effects"
+author: "Sarah Wang"
+domain: "a16z.com"
+url: "https://a16z.com/16-ways-to-measure-network-effects/"
+pubDate: 2021-12-27
+takeaway: "A quantitative framework for measuring the strength of network effects across acquisition, engagement, and retention."
+---
+
+Sarah Wang’s quantitative framework is the analytical foundation that has been sorely missing from discussions on network effects. For too long, "network effects" has been treated as a qualitative hand-waving exercise—something we proudly include in pitch decks but fail to track on our actual operating dashboards. By breaking this down into sixteen rigorous metrics across acquisition, engagement, and retention, Wang provides a highly practical, engineering-grade diagnostic tool. It moves us past vanity metrics like total registered users and forces us to look at real cohort dynamics, organic referral shares, and the local density of our network.
+
+For anyone writing code and monitoring databases, this essay is a direct call to action. It defines exactly what telemetry we need to build into our systems. If we aren't instrumenting our data pipelines to measure things like multi-homing rates, cohort retention over time, and the price elasticity of our supply, then we are flying completely blind. Having this framework allows us to translate the theoretical magic of network effects into concrete, queries that we can run on our databases every single Monday morning.
+
+### What stuck with me
+* **Quantify the magic**: Qualitative claims about network effects are useless without rigorous cohort tracking and network density metrics.
+* **Telemetry is key**: Engineering teams must build robust data pipelines to monitor real-time indicators like organic user acquisition and multi-homing rates.
+* **Cohort-level focus**: Long-term defensibility is revealed through cohort retention curves, showing whether newer users become more valuable over time.

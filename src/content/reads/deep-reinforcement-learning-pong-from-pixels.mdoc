@@ -1,0 +1,18 @@
+---
+title: "Deep Reinforcement Learning: Pong from Pixels"
+author: "Andrej Karpathy"
+domain: "karpathy.github.io"
+url: "https://karpathy.github.io/2016/05/31/rl/"
+pubDate: 2016-04-04
+takeaway: "Explains policy gradient reinforcement learning by teaching a network to play Atari Pong from raw pixels."
+---
+
+As an engineer, Karpathy's post is a Masterclass in demystifying complex technical systems. Reinforcement learning often feels like magic when you see the end result, but breaking it down into raw policy gradients—literally mapping raw Atari Pong screen pixels to probability vectors of moving the paddle up or down—makes it beautiful and concrete. It is incredibly satisfying to see how a simple mathematical loss function, combined with random exploration and a feedback signal, can produce highly coordinated, seemingly intelligent behavior over thousands of iterations.
+
+From a startup builder's perspective, this is a profound lesson in how complex capabilities emerge from simple, iterative feedback loops. We spend so much time trying to over-engineer perfect systems and deterministic rules, when often the right approach is to establish a clear signal and let the system iteratively optimize against it. It's a reminder that we don't always need to program the solution directly; sometimes, our job as engineers is to design the environment and the incentives that allow the solution to teach itself.
+
+### What stuck with me
+- **Emergence from simplicity**: Highly complex behavior can emerge from simple mathematical models optimized over many iterations.
+- **Raw input potential**: Processing raw pixels directly without hand-crafted features demonstrates the incredible flexibility of deep neural networks.
+- **The policy gradient**: Policy gradients work by simply raising the probability of actions that lead to good outcomes.
+- **Iterative learning power**: Setting up a clear feedback loop is often far more effective than trying to hard-code rules for complex systems.
