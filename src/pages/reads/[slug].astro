@@ -24,6 +24,36 @@ const formattedDate = dateObj.toLocaleDateString('en-US', {
 
 // Cloudflare Turnstile site key (public). Comment form is disabled if absent.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
+// Canonical URL for this page, for structured data.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+// These pages are Pranay's commentary on someone else's article, so they are
+// marked up as a BlogPosting citing the source. Review/itemReviewed is not used:
+// Google only accepts a fixed list of types under itemReviewed (Book, Product,
+// Movie, ...) and a web article fits none of them.
+const readSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: entry.data.title,
+  description: entry.data.takeaway,
+  datePublished: isoDate,
+  dateModified: isoDate,
+  author: {
+    '@type': 'Person',
+    name: 'Pranay Mehrotra',
+    url: 'https://pranaym.com',
+  },
+  publisher: { '@id': 'https://pranaym.com/#person' },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  url: pageUrl,
+  isBasedOn: {
+    '@type': 'CreativeWork',
+    name: entry.data.title,
+    author: { '@type': 'Person', name: entry.data.author },
+    url: entry.data.url,
+  },
+};
 ---
 
 <BaseLayout 
@@ -75,25 +105,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     </div>
 
     <!-- Structured Data Schema for SEO & LLMs -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Review",
-      "itemReviewed": {
-        "@type": "CreativeWork",
-        "name": entry.data.title,
-        "author": {
-          "@type": "Person",
-          "name": entry.data.author
-        },
-        "url": entry.data.url
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Pranay Mehrotra",
-        "url": "https://pranaym.com"
-      },
-      "reviewBody": entry.data.takeaway
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(readSchema)} />
 
     <!-- Guest Comment Section Placeholder with Cloudflare Turnstile -->
     <section class="comments-section" id="comments">
