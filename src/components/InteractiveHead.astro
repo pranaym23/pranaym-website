@@ -1,0 +1,185 @@
+---
+// src/components/InteractiveHead.astro
+---
+
+<div class="interactive-head-wrapper">
+  <div class="interactive-head-inner" id="interactive-head">
+    <img src="/images/avatar/center.png" alt="Pranay Mehrotra" class="head-frame active" data-pose="center" />
+    <img src="/images/avatar/top_left.png" alt="" class="head-frame" data-pose="top_left" />
+    <img src="/images/avatar/up.png" alt="" class="head-frame" data-pose="up" />
+    <img src="/images/avatar/top_right.png" alt="" class="head-frame" data-pose="top_right" />
+    <img src="/images/avatar/left.png" alt="" class="head-frame" data-pose="left" />
+    <img src="/images/avatar/right.png" alt="" class="head-frame" data-pose="right" />
+    <img src="/images/avatar/bottom_left.png" alt="" class="head-frame" data-pose="bottom_left" />
+    <img src="/images/avatar/down.png" alt="" class="head-frame" data-pose="down" />
+    <img src="/images/avatar/bottom_right.png" alt="" class="head-frame" data-pose="bottom_right" />
+  </div>
+</div>
+
+<style>
+  .interactive-head-wrapper {
+    width: 160px;
+    height: 160px;
+    perspective: 1000px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .interactive-head-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    background-color: var(--border-subtle);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  .interactive-head-inner:hover {
+    border-color: var(--accent);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+  }
+
+  .head-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.08s ease-out;
+    pointer-events: none;
+  }
+
+  .head-frame.active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  function initInteractiveHead() {
+    const wrapper = document.querySelector('.interactive-head-wrapper') as HTMLElement;
+    const container = document.getElementById('interactive-head');
+    if (!container || !wrapper) return;
+
+    const frames = Array.from(container.querySelectorAll('.head-frame')) as HTMLImageElement[];
+    if (!frames.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isHoverCapable = window.matchMedia('(hover: hover)').matches;
+
+    let targetDx = 0;
+    let targetDy = 0;
+    let currDx = 0;
+    let currDy = 0;
+    let currentPose = 'center';
+    let rafId: number | null = null;
+    let idleTimeout: any = null;
+
+    // Preload image frames for zero-delay switching
+    frames.forEach(img => {
+      if (!img.complete) {
+        const temp = new Image();
+        temp.src = img.src;
+      }
+    });
+
+    function getPoseFromCoords(dx: number, dy: number): string {
+      const dist = Math.hypot(dx, dy);
+      // Tight deadzone so avatar reacts quickly when cursor leaves center
+      if (dist < 0.08) return 'center';
+
+      // Angle in degrees (-180 to 180)
+      let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+      if (angle >= -22.5 && angle < 22.5) return 'right';
+      if (angle >= 22.5 && angle < 67.5) return 'bottom_right';
+      if (angle >= 67.5 && angle < 112.5) return 'down';
+      if (angle >= 112.5 && angle < 157.5) return 'bottom_left';
+      if (angle >= 157.5 || angle < -157.5) return 'left';
+      if (angle >= -157.5 && angle < -112.5) return 'top_left';
+      if (angle >= -112.5 && angle < -67.5) return 'up';
+      if (angle >= -67.5 && angle < -22.5) return 'top_right';
+
+      return 'center';
+    }
+
+    function switchPose(pose: string) {
+      if (pose === currentPose) return;
+      currentPose = pose;
+      frames.forEach(frame => {
+        if (frame.dataset.pose === pose) {
+          frame.classList.add('active');
+        } else {
+          frame.classList.remove('active');
+        }
+      });
+    }
+
+    function update() {
+      // Snappy lerp (0.28) for immediate responsive tracking
+      currDx += (targetDx - currDx) * 0.28;
+      currDy += (targetDy - currDy) * 0.28;
+
+      const activePose = getPoseFromCoords(currDx, currDy);
+      switchPose(activePose);
+
+      if (!prefersReducedMotion && isHoverCapable) {
+        const rotX = -currDy * 16;
+        const rotY = currDx * 18;
+        container.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      }
+
+      rafId = requestAnimationFrame(update);
+    }
+
+    function onMouseMove(e: MouseEvent) {
+      // Measure wrapper position so 3D transform on inner container doesn't offset calculations
+      const rect = wrapper.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      // Dynamic radius based on viewport size for intuitive tracking sensitivity
+      const radiusX = Math.min(window.innerWidth * 0.35, 450);
+      const radiusY = Math.min(window.innerHeight * 0.35, 350);
+
+      targetDx = Math.min(Math.max((e.clientX - cx) / radiusX, -1), 1);
+      targetDy = Math.min(Math.max((e.clientY - cy) / radiusY, -1), 1);
+
+      clearTimeout(idleTimeout);
+      idleTimeout = setTimeout(() => {
+        // Smoothly return to center when idle for 5s
+        targetDx = 0;
+        targetDy = 0;
+      }, 5000);
+    }
+
+    function onMouseLeave() {
+      targetDx = 0;
+      targetDy = 0;
+    }
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeave, { passive: true });
+
+    update();
+
+    document.addEventListener('astro:before-swap', () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
+    }, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initInteractiveHead);
+  } else {
+    initInteractiveHead();
+  }
+  document.addEventListener('astro:after-swap', initInteractiveHead);
+</script>

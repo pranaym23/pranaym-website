@@ -2,6 +2,7 @@
 // src/pages/index.astro
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import InteractiveHead from '../components/InteractiveHead.astro';
 
 export const prerender = true;
 
@@ -31,7 +32,7 @@ const webpImages = Object.keys(imageModules)
   <section class="profile-intro">
     <div class="profile-grid">
       <div class="profile-image-container">
-        <img src="/images/portrait.png" alt="Pranay Mehrotra" class="profile-avatar" />
+        <InteractiveHead />
       </div>
       <div class="profile-text">
         <p>
