@@ -1,0 +1,20 @@
+# LOCAL DEVELOPMENT ONLY.
+#
+# Deliberately not named `wrangler.toml`: Cloudflare Pages' CI picks up a file
+# with that exact name and then *ignores every binding set in the dashboard*,
+# which would silently drop TURNSTILE_SECRET in production. Pass this file
+# explicitly instead:
+#
+#   npx wrangler pages dev -c wrangler.dev.toml
+#   npx wrangler d1 execute DB -c wrangler.dev.toml --local --file=./schema.sql
+#
+# Production bindings stay where they are today: Pages project -> Settings.
+
+name = "pranaym-website"
+compatibility_date = "2025-07-01"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pranaym-comments"
+database_id = "e05fefb4-a589-44d6-bca2-fddd0f812fa3"

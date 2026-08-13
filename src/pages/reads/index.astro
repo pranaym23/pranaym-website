@@ -23,7 +23,7 @@ const itemListJson = {
   itemListElement: pageItems.map((item, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `https://pranaym.com/reads/${item.id}`,
+    url: `https://pranaym.com/reads/${item.id}/`,
     name: item.data.title,
   })),
 };
@@ -51,7 +51,7 @@ const itemListJson = {
     <nav class="reads-pagination" aria-label="Recommended Reading pages">
       <span class="pagination-status">Page 1 of {totalPages}</span>
       {totalPages > 1 && (
-        <a rel="next" class="pagination-next" href="/reads/page/2">Next &rarr;</a>
+        <a rel="next" class="pagination-next" href="/reads/page/2/">Next &rarr;</a>
       )}
     </nav>
   </section>

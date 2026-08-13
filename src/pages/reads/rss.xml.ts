@@ -21,7 +21,7 @@ export const GET: APIRoute = async () => {
 
   const items = sorted
     .map((item) => {
-      const link = `${SITE}/reads/${item.id}`;
+      const link = `${SITE}/reads/${item.id}/`;
       const pub = new Date(item.data.pubDate).toUTCString();
       return `    <item>
       <title>${esc(item.data.title)}</title>
@@ -38,7 +38,7 @@ export const GET: APIRoute = async () => {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Recommended Reading — Pranay</title>
-    <link>${SITE}/reads</link>
+    <link>${SITE}/reads/</link>
     <atom:link href="${SITE}/reads/rss.xml" rel="self" type="application/rss+xml" />
     <description>A curated collection of high-signal essays, papers, and articles with takeaways and commentary by Pranay.</description>
     <language>en</language>

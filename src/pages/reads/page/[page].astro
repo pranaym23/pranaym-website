@@ -4,6 +4,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ReadCard from '../../../components/ReadCard.astro';
+import { truncate } from '../../../lib/seo';
 
 export async function getStaticPaths() {
   const PAGE_SIZE = 24;
@@ -29,8 +30,12 @@ export async function getStaticPaths() {
 }
 
 const { items, page, totalPages, total, startIndex } = Astro.props;
-const prevHref = page === 2 ? '/reads' : `/reads/page/${page - 1}`;
-const nextHref = page < totalPages ? `/reads/page/${page + 1}` : null;
+const prevHref = page === 2 ? '/reads/' : `/reads/page/${page - 1}/`;
+const nextHref = page < totalPages ? `/reads/page/${page + 1}/` : null;
+
+// Naming the lead item keeps each paginated page's meta description distinct;
+// otherwise all 10 shared one string.
+const firstTitle = truncate(items[0]?.data.title ?? 'curated essays', 60);
 
 const itemListJson = {
   '@context': 'https://schema.org',
@@ -40,15 +45,15 @@ const itemListJson = {
   itemListElement: items.map((item, i) => ({
     '@type': 'ListItem',
     position: startIndex + i + 1,
-    url: `https://pranaym.com/reads/${item.id}`,
+    url: `https://pranaym.com/reads/${item.id}/`,
     name: item.data.title,
   })),
 };
 ---
 
 <BaseLayout
-  title={`Recommended Reading — Pranay (page ${page})`}
-  description="A curated collection of articles, papers, and essays recommended by Pranay with takeaways and notes."
+  title={`Recommended Reading, page ${page} of ${totalPages} — Pranay`}
+  description={`Page ${page} of ${totalPages} of Pranay's recommended reading: ${firstTitle} and ${items.length - 1} more articles, papers, and essays, each with takeaways and notes.`}
 >
   <section class="reads-archive-section">
     <header class="page-intro">

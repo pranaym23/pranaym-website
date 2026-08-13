@@ -22,6 +22,9 @@ const reads = defineCollection({
     url: z.string().url(),
     pubDate: z.coerce.date(),
     takeaway: z.string(),
+    // Optional hand-written <title>. Without it the title is derived from
+    // `title` and trimmed to the SERP budget (see src/lib/seo.ts).
+    seoTitle: z.string().optional(),
   }),
 });
 

@@ -12,7 +12,10 @@ const sortedPosts = posts.sort((a, b) => {
 
 <BaseLayout title="Writing — Pranay" description="The full archive of essays, reflections, and technical articles by Pranay.">
   <section class="archive-section" style="margin-top: 2rem;">
-    <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 2rem; font-family: var(--font-sans); font-weight: 700; color: var(--text-strong);">Writing Archive</h1>
+    <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 0.75rem; font-family: var(--font-sans); font-weight: 700; color: var(--text-strong);">Writing Archive</h1>
+    <p class="reads-feed-link" style="margin-bottom: 2rem;">
+      <a href="/blog/rss.xml">RSS feed</a>
+    </p>
     <ul class="post-list">
       {sortedPosts.map((post) => {
         const dateObj = new Date(post.data.pubDate);
@@ -21,7 +24,7 @@ const sortedPosts = posts.sort((a, b) => {
         return (
           <li class="post-item">
             <span class="post-meta-date">{formattedDate}</span>
-            <a href={`/blog/${post.id}`} class="post-title-link">
+            <a href={`/blog/${post.id}/`} class="post-title-link">
               {post.data.title}
             </a>
           </li>
