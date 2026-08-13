@@ -2,6 +2,7 @@
 // src/pages/reads/[slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { buildReadTitle, buildReadDescription } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const reads = await getCollection('reads');
@@ -56,14 +57,16 @@ const readSchema = {
 };
 ---
 
-<BaseLayout 
-  title={`${entry.data.title} — Recommendation by Pranay`}
-  description={`Pranay's notes on "${entry.data.title}" by ${entry.data.author}: ${entry.data.takeaway}`}
+<BaseLayout
+  title={buildReadTitle(entry.data.title, entry.data.seoTitle)}
+  description={buildReadDescription(entry.data.title, entry.data.author, entry.data.takeaway)}
+  ogType="article"
+  publishedTime={isoDate}
 >
   <article class="read-detail-article">
     <!-- Back to archive navigation -->
     <nav class="back-nav">
-      <a href="/reads" class="back-link">&larr; Back to Recommended Reading</a>
+      <a href="/reads/" class="back-link">&larr; Back to Recommended Reading</a>
     </nav>
 
     <header class="read-detail-header">
@@ -107,31 +110,40 @@ const readSchema = {
     <!-- Structured Data Schema for SEO & LLMs -->
     <script type="application/ld+json" set:html={JSON.stringify(readSchema)} />
 
-    <!-- Guest Comment Section Placeholder with Cloudflare Turnstile -->
-    <section class="comments-section" id="comments">
+    <!-- Guest comments: approved thread is fetched client-side from /comments,
+         new submissions POST to /comment and land in the moderation queue. -->
+    <section class="comments-section" id="comments" data-post-id={`read-${entry.id}`}>
       <h2 class="comments-title">Discussion & Comments</h2>
+
+      <ol class="comment-list" id="comment-list" hidden></ol>
+      <p class="comments-note" id="comment-empty" hidden>
+        No comments yet. Yours would be the first.
+      </p>
+
       <p class="comments-note">
         Have thoughts on this recommendation? Share your perspective below.
+        Comments are reviewed before they appear.
       </p>
 
       {turnstileSiteKey ? (
-        <form class="comment-form" action="/comment" method="POST">
+        <form class="comment-form" action="/comment" method="POST" id="comment-form">
           <input type="hidden" name="post_id" value={`read-${entry.id}`} />
 
           <div class="form-group">
             <label for="comment-author">Name</label>
-            <input type="text" id="comment-author" name="author" required placeholder="Your name or handle" class="form-input" />
+            <input type="text" id="comment-author" name="author" required maxlength="80" placeholder="Your name or handle" class="form-input" />
           </div>
 
           <div class="form-group">
             <label for="comment-text">Comment</label>
-            <textarea id="comment-text" name="comment" rows="4" required placeholder="Write your thoughts..." class="form-textarea"></textarea>
+            <textarea id="comment-text" name="comment" rows="4" required maxlength="4000" placeholder="Write your thoughts..." class="form-textarea"></textarea>
           </div>
 
           <!-- Cloudflare Turnstile Widget (SiteKey from PUBLIC_TURNSTILE_SITE_KEY) -->
           <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="turnstile-spin-v2" data-theme="auto"></div>
 
           <button type="submit" class="submit-comment-btn">Submit Comment</button>
+          <p class="comment-status" id="comment-status" role="status" aria-live="polite" hidden></p>
         </form>
       ) : (
         <p class="comments-note">Comments are temporarily unavailable.</p>
@@ -144,3 +156,139 @@ const readSchema = {
     )}
   </article>
 </BaseLayout>
+
+<script>
+  // Comments are rendered client-side because the page itself is static.
+  // Everything here degrades gracefully: with JS off the form still posts
+  // normally and /comment 303s back with ?comment=received.
+  (() => {
+    const section = document.getElementById('comments');
+    if (!section) return;
+
+    const postId = section.dataset.postId;
+    const list = document.getElementById('comment-list');
+    const empty = document.getElementById('comment-empty');
+    const form = document.getElementById('comment-form') as HTMLFormElement | null;
+    const statusEl = document.getElementById('comment-status');
+
+    const setStatus = (message: string, kind: 'ok' | 'error') => {
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.dataset.kind = kind;
+      statusEl.hidden = false;
+    };
+
+    const formatDate = (iso: string) => {
+      const d = new Date(iso);
+      return Number.isNaN(d.getTime())
+        ? ''
+        : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    };
+
+    // Built with textContent throughout - never innerHTML - so comment bodies
+    // cannot inject markup.
+    const render = (comments: Array<{ author: string; body: string; created_at: string }>) => {
+      if (!list || !empty) return;
+      list.textContent = '';
+
+      if (!comments.length) {
+        list.hidden = true;
+        empty.hidden = false;
+        return;
+      }
+
+      for (const c of comments) {
+        const li = document.createElement('li');
+        li.className = 'comment-item';
+
+        const meta = document.createElement('div');
+        meta.className = 'comment-meta';
+
+        const author = document.createElement('span');
+        author.className = 'comment-author';
+        author.textContent = c.author;
+        meta.appendChild(author);
+
+        const when = formatDate(c.created_at);
+        if (when) {
+          const dot = document.createElement('span');
+          dot.className = 'meta-dot';
+          dot.textContent = '·';
+          meta.appendChild(dot);
+
+          const time = document.createElement('time');
+          time.dateTime = c.created_at;
+          time.textContent = when;
+          meta.appendChild(time);
+        }
+
+        const body = document.createElement('p');
+        body.className = 'comment-body';
+        body.textContent = c.body;
+
+        li.append(meta, body);
+        list.appendChild(li);
+      }
+
+      empty.hidden = true;
+      list.hidden = false;
+    };
+
+    const load = async () => {
+      try {
+        const res = await fetch(`/comments?post_id=${encodeURIComponent(postId ?? '')}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.ok) render(data.comments ?? []);
+      } catch {
+        // Offline or the endpoint is unavailable - leave the thread hidden
+        // rather than showing an error above the form.
+      }
+    };
+
+    // Surface the result of a no-JS submission that redirected back here.
+    const flag = new URLSearchParams(window.location.search).get('comment');
+    if (flag === 'received') {
+      setStatus('Thanks. Your comment is awaiting review.', 'ok');
+    } else if (flag === 'error') {
+      setStatus('That comment could not be posted. Please try again.', 'error');
+    }
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (button) button.disabled = true;
+      setStatus('Sending...', 'ok');
+
+      try {
+        const res = await fetch('/comment', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json', 'X-Requested-With': 'fetch' },
+        });
+        const data = await res.json().catch(() => ({ ok: false }));
+
+        if (res.ok && data.ok) {
+          setStatus(data.message ?? 'Thanks. Your comment is awaiting review.', 'ok');
+          form.reset();
+        } else {
+          setStatus(data.error ?? 'Something went wrong. Please try again.', 'error');
+        }
+      } catch {
+        setStatus('Network error. Please try again.', 'error');
+      } finally {
+        if (button) button.disabled = false;
+        // Each Turnstile token is single-use, so the widget needs resetting
+        // whether the submission succeeded or not.
+        (window as any).turnstile?.reset?.();
+      }
+    });
+
+    load();
+  })();
+</script>
+
+<!-- Comment thread styles live in src/styles/global.css, not in a scoped block
+     here: the list is rendered at runtime so Astro's scoping would not match. -->

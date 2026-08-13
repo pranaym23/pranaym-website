@@ -1179,6 +1179,61 @@ a:hover {
   margin-bottom: 1.5rem;
 }
 
+/* Approved comment thread.
+   These rules must live here rather than in a scoped <style> block on
+   src/pages/reads/[slug].astro: the list items are built at runtime by JS, so
+   they never receive Astro's scoping attribute and a scoped rule would miss. */
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.comment-item {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background-color: var(--border-subtle);
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.comment-body {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.comment-status[data-kind='ok'] {
+  color: var(--text-dim);
+}
+
+.comment-status[data-kind='error'] {
+  color: #e5534b;
+}
+
 .comment-form {
   display: flex;
   flex-direction: column;
