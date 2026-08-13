@@ -126,7 +126,7 @@ const webpImages = Object.keys(imageModules)
                 <span class="read-author-domain">{item.data.author} &middot; {item.data.domain}</span>
               </div>
               <h3 class="read-item-title">
-                <a href={`/reads/${item.id}`} class="read-title-link">
+                <a href={`/reads/${item.id}/`} class="read-title-link">
                   {item.data.title}
                 </a>
               </h3>
@@ -136,7 +136,7 @@ const webpImages = Object.keys(imageModules)
         })}
       </div>
       <div style="margin-top: 1.5rem;">
-        <a href="/reads" class="view-all-link">View all recommended reads &rarr;</a>
+        <a href="/reads/" class="view-all-link">View all recommended reads &rarr;</a>
       </div>
     </section>
   )}
@@ -153,7 +153,7 @@ const webpImages = Object.keys(imageModules)
         return (
           <li class="post-item">
             <span class="post-meta-date">{formattedDate}</span>
-            <a href={`/blog/${post.id}`} class="post-title-link">
+            <a href={`/blog/${post.id}/`} class="post-title-link">
               {post.data.title}
             </a>
           </li>
@@ -162,7 +162,7 @@ const webpImages = Object.keys(imageModules)
     </ul>
     {sortedPosts.length > 7 && (
       <div style="margin-top: 2rem;">
-        <a href="/blog" class="view-all-link">View all articles &rarr;</a>
+        <a href="/blog/" class="view-all-link">View all articles &rarr;</a>
       </div>
     )}
   </section>

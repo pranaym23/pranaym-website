@@ -1,13 +1,46 @@
 ---
 // src/pages/admin/index.astro
+//
+// Convenience shortcut to the Keystatic editor. Keystatic needs SSR, so it only
+// exists during `npm run dev` — in the static production build /keystatic is not
+// a route, and bouncing there would land the visitor on the catch-all. So the
+// production copy of this page explains itself instead of redirecting.
+const isDev = import.meta.env.DEV;
 ---
 <html lang="en">
   <head>
-    <meta http-equiv="refresh" content="0; url=/keystatic" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Redirecting to Keystatic Admin...</title>
+    {isDev && <meta http-equiv="refresh" content="0; url=/keystatic" />}
+    <title>{isDev ? 'Redirecting to Keystatic Admin…' : 'Admin — not available'}</title>
+    <style>
+      body {
+        font-family: Georgia, serif;
+        background: #1f1e1d;
+        color: #f0eee6;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 2rem;
+      }
+      main { max-width: 32rem; text-align: center; }
+      a { color: #faf9f5; }
+    </style>
   </head>
   <body>
-    <p>Redirecting to <a href="/keystatic">CMS Admin Dashboard</a>...</p>
+    <main>
+      {isDev ? (
+        <p>Redirecting to the <a href="/keystatic">CMS admin dashboard</a>…</p>
+      ) : (
+        <p>
+          The CMS runs locally only. Start it with <code>npm run cms</code> in the
+          repo, then open <code>/keystatic</code>.
+          <br /><br />
+          <a href="/">Back to pranaym.com</a>
+        </p>
+      )}
+    </main>
   </body>
 </html>

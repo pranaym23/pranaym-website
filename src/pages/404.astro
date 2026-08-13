@@ -1,0 +1,120 @@
+---
+// src/pages/404.astro — emitted as dist/404.html, which Cloudflare Pages serves
+// with a real HTTP 404 for any unmatched route.
+//
+// NOTE: this only works while the Pages project has the "Single Page Application"
+// build setting OFF. With SPA mode on, Pages rewrites every unmatched path to
+// index.html with a 200 and this file is never reached. See OPS.md.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog');
+const recent = posts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 5);
+---
+
+<BaseLayout
+  title="Page not found — Pranay"
+  description="That page does not exist. Browse the writing archive or the recommended reading collection instead."
+  noindex={true}
+>
+  <section class="notfound">
+    <p class="notfound-code">404</p>
+    <h1 class="notfound-title">This page does not exist.</h1>
+    <p class="notfound-body">
+      The link may be broken, or the page may have moved when this site migrated
+      off WordPress. Here is the way back.
+    </p>
+
+    <nav class="notfound-links" aria-label="Recovery">
+      <a href="/" class="notfound-cta">Home</a>
+      <a href="/blog/" class="notfound-cta">Writing archive</a>
+      <a href="/reads/" class="notfound-cta">Recommended reading</a>
+      <a href="/about/" class="notfound-cta">About</a>
+    </nav>
+
+    {recent.length > 0 && (
+      <div class="notfound-recent">
+        <h2>Recent writing</h2>
+        <ul class="post-list">
+          {recent.map((post) => {
+            const formattedDate = new Date(post.data.pubDate).toISOString().split('T')[0];
+            return (
+              <li class="post-item">
+                <span class="post-meta-date">{formattedDate}</span>
+                <a href={`/blog/${post.id}/`} class="post-title-link">{post.data.title}</a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    margin: 4rem 0 5rem;
+  }
+
+  .notfound-code {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    margin: 0 0 0.75rem;
+  }
+
+  .notfound-title {
+    font-family: var(--font-sans);
+    font-size: 2.5rem;
+    line-height: 1.15;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+  }
+
+  .notfound-body {
+    max-width: 46ch;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
+  }
+
+  .notfound-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .notfound-cta {
+    display: inline-block;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--text-strong);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .notfound-cta:hover {
+    border-color: var(--text-strong);
+    background-color: var(--border-subtle);
+  }
+
+  .notfound-recent h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .notfound-title {
+      font-size: 1.9rem;
+    }
+  }
+</style>

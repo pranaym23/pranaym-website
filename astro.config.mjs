@@ -11,6 +11,9 @@ const isDev = process.env.NODE_ENV !== 'production';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://pranaym.com',
+  // Cloudflare Pages serves directory routes at `/about/`, so every internal
+  // href must carry the trailing slash — otherwise each click costs a 308.
+  trailingSlash: 'always',
   // Production is a fully STATIC build deployed to Cloudflare Pages.
   // Keystatic's admin UI needs SSR, so it (and the node adapter that serves it)
   // are loaded in dev only — the CMS runs locally at /keystatic during `npm run dev`.
