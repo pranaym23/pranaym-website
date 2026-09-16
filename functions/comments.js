@@ -17,15 +17,22 @@ export async function onRequestGet({ request, env }) {
     return json({ ok: false, error: 'Unrecognised post.' }, 400);
   }
 
-  const { results } = await env.DB.prepare(
-    `SELECT author, body, created_at
-       FROM comments
-      WHERE post_id = ?1 AND status = 'approved'
-      ORDER BY created_at ASC
-      LIMIT ?2`
-  )
-    .bind(postId, LIMIT)
-    .all();
+  let results;
+  try {
+    ({ results } = await env.DB.prepare(
+      `SELECT author, body, created_at
+         FROM comments
+        WHERE post_id = ?1 AND status = 'approved'
+        ORDER BY created_at ASC
+        LIMIT ?2`
+    )
+      .bind(postId, LIMIT)
+      .all());
+  } catch (err) {
+    // A database blip should not break the page - the thread just stays empty.
+    console.error('GET /comments failed:', err);
+    return json({ ok: true, comments: [] });
+  }
 
   return json(
     { ok: true, comments: results ?? [] },

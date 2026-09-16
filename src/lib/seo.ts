@@ -39,3 +39,40 @@ export function buildReadDescription(
 ): string {
   return truncate(`Pranay's notes on "${title}" by ${author}: ${takeaway}`, 155);
 }
+
+/**
+ * Blog `<title>`s were emitted as `${title} — Pranay` with no ceiling, so the
+ * longest few were truncated mid-word by Google. Trim the post title to what
+ * is left of the budget instead, and drop the suffix entirely if even that
+ * would not leave room for a meaningful title.
+ */
+export function buildPostTitle(title: string, suffix = ' — Pranay'): string {
+  const clean = (title ?? '').trim();
+  if (clean.length + suffix.length <= TITLE_BUDGET) return clean + suffix;
+  return truncate(clean, TITLE_BUDGET - suffix.length) + suffix;
+}
+
+/** Meta descriptions are truncated around 155-160 characters. */
+export function buildMetaDescription(text: string): string {
+  return truncate(text, 155);
+}
+
+/**
+ * BreadcrumbList for a content page. Breadcrumbs replace the bare URL in the
+ * SERP and give crawlers an explicit parent/child relationship.
+ */
+export function buildBreadcrumbs(
+  trail: Array<{ name: string; path: string }>,
+  site = 'https://pranaym.com'
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.name,
+      item: new URL(crumb.path, site).href,
+    })),
+  };
+}

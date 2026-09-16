@@ -9,6 +9,16 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
+  # Defence in depth. The site renders no user-supplied HTML (comment bodies go
+  # through textContent), so this is a second line rather than the only one.
+  # 'unsafe-inline' is required for scripts: BaseLayout ships the gtag snippet
+  # and the anti-FOUC theme script inline, and Astro inlines component styles.
+  # Allowed third parties: googletagmanager/google-analytics (gtag),
+  # challenges.cloudflare.com (Turnstile), www.google.com (favicon service),
+  # fonts.googleapis.com + fonts.gstatic.com (the Newsreader/Inter @import in
+  # global.css - the stylesheet is style-src, the woff2 files are font-src).
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; frame-src https://challenges.cloudflare.com; manifest-src 'self'; upgrade-insecure-requests
 
 # Astro emits content-hashed filenames under /_astro/, so these can never go
 # stale — cache them for a year and skip revalidation.

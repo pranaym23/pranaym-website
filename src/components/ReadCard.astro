@@ -11,7 +11,8 @@ const formattedDate = new Date(item.data.pubDate).toISOString().split('T')[0];
     <img
       class="read-favicon"
       src={`https://www.google.com/s2/favicons?domain=${item.data.domain}&sz=32`}
-      alt={`${item.data.domain} favicon`}
+      alt=""
+      referrerpolicy="no-referrer"
       width="16"
       height="16"
       loading="lazy"
@@ -24,9 +25,19 @@ const formattedDate = new Date(item.data.pubDate).toISOString().split('T')[0];
   </h2>
   <p class="read-takeaway">{item.data.takeaway}</p>
   <div class="read-actions">
-    <a href={`/reads/${item.id}/`} class="read-permalink">My Notes &rarr;</a>
-    <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="read-external-link">
-      Original Source <span class="external-icon">&nearr;</span>
+    <a
+      href={`/reads/${item.id}/`}
+      class="read-permalink"
+      aria-label={`My notes on "${item.data.title}"`}
+    >My Notes &rarr;</a>
+    <a
+      href={item.data.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="read-external-link"
+      aria-label={`Read "${item.data.title}" at ${item.data.domain} (opens in a new tab)`}
+    >
+      Original Source <span class="external-icon" aria-hidden="true">&nearr;</span>
     </a>
   </div>
 </article>

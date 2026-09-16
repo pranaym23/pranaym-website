@@ -4,7 +4,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ReadCard from '../../../components/ReadCard.astro';
-import { truncate } from '../../../lib/seo';
+import { truncate, buildMetaDescription } from '../../../lib/seo';
 
 export async function getStaticPaths() {
   const PAGE_SIZE = 24;
@@ -53,7 +53,9 @@ const itemListJson = {
 
 <BaseLayout
   title={`Recommended Reading, page ${page} of ${totalPages} — Pranay`}
-  description={`Page ${page} of ${totalPages} of Pranay's recommended reading: ${firstTitle} and ${items.length - 1} more articles, papers, and essays, each with takeaways and notes.`}
+  description={buildMetaDescription(
+    `Page ${page} of ${totalPages} of Pranay's recommended reading: ${firstTitle} and ${items.length - 1} more essays and papers, each with a takeaway.`
+  )}
 >
   <section class="reads-archive-section">
     <header class="page-intro">

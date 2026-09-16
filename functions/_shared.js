@@ -39,9 +39,14 @@ export function validateSubmission({ postId, author, body }) {
   }
 
   // Strip control characters, collapse runs of blank lines, trim.
+  // Bidi overrides and zero-width characters are removed too: comments are
+  // shown next to a name, and those can be used to visually spoof one
+  // (e.g. reversing text so it reads as somebody else's handle).
   const clean = (s) =>
     (s ?? '')
+      .normalize('NFC')
       .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+      .replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g, '')
       .replace(/\r\n/g, '\n')
       .replace(/\n{3,}/g, '\n\n')
       .trim();
@@ -61,19 +66,35 @@ export function validateSubmission({ postId, author, body }) {
   return { ok: true, value: { postId: cleanPostId, author: cleanAuthor, body: cleanBody } };
 }
 
-/** Canonical Turnstile server-side check. */
+/**
+ * Canonical Turnstile server-side check.
+ *
+ * Fails closed: a siteverify call that times out, errors, or returns a
+ * non-JSON body is treated as a failed challenge rather than throwing (an
+ * uncaught throw here would surface as a bare 500) or passing.
+ */
 export async function verifyTurnstile({ token, secret, remoteip }) {
   if (!secret) return { ok: false, error: 'Comments are not configured.' };
-  if (!token) return { ok: false, error: 'Please complete the verification challenge.' };
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) {
+    return { ok: false, error: 'Please complete the verification challenge.' };
+  }
 
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret, response: token, remoteip: remoteip ?? '' }),
-  });
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: token, remoteip: remoteip ?? '' }),
+      // Don't let a hung upstream hold the request open indefinitely.
+      signal: AbortSignal.timeout(10_000),
+    });
 
-  const outcome = await res.json();
-  return outcome.success
-    ? { ok: true }
-    : { ok: false, error: 'Verification failed. Please try again.' };
+    if (!res.ok) return { ok: false, error: 'Verification failed. Please try again.' };
+
+    const outcome = await res.json();
+    return outcome?.success === true
+      ? { ok: true }
+      : { ok: false, error: 'Verification failed. Please try again.' };
+  } catch {
+    return { ok: false, error: 'Verification is unavailable right now. Please try again.' };
+  }
 }

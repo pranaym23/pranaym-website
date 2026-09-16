@@ -97,18 +97,36 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
         {
           "@type": "Person",
           "@id": "https://pranaym.com/#person",
-          "name": "Pranay",
+          "name": "Pranay Mehrotra",
+          "alternateName": "Pranay",
           "url": "https://pranaym.com",
+          "image": "https://pranaym.com/images/portrait.png",
           "sameAs": [
             "https://www.linkedin.com/in/pranaym/",
             "https://twitter.com/pranaym0",
-            "https://instagram.com/xerk"
+            "https://instagram.com/xerk",
+            "https://open.spotify.com/artist/1SwRcpUgmqdoprGlXhphF2"
           ],
           "jobTitle": "Tech Founder & Writer",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Kolab",
+            "url": "https://kolab.com.br"
+          },
+          "homeLocation": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "São Paulo",
+              "addressCountry": "BR"
+            }
+          },
           "knowsAbout": [
             "Software Engineering",
             "Startup Architecture",
             "Generative AI",
+            "Applied AI",
+            "Marketplaces and Network Effects",
             "Product Leadership"
           ],
           "description": "A tech founder, engineer, and writer based in São Paulo, Brazil."
@@ -118,6 +136,7 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
           "@id": "https://pranaym.com/#website",
           "url": "https://pranaym.com",
           "name": "Pranay Mehrotra",
+          "inLanguage": "en",
           "description": "Personal website, story, and essays of Pranay.",
           "publisher": {
             "@id": "https://pranaym.com/#person"

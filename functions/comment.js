@@ -24,19 +24,39 @@ function wantsJson(request) {
     request.headers.get('X-Requested-With') === 'fetch';
 }
 
+/**
+ * Only ever redirect to a path on this origin.
+ *
+ * `url.pathname` is not safe to use raw: for a Referer of
+ * `https://pranaym.com//evil.com` the origin check passes but the pathname is
+ * `//evil.com`, and a `Location: //evil.com` is a protocol-relative URL that
+ * browsers resolve to `https://evil.com`. Require a single leading slash and
+ * reject anything that could start a new authority.
+ */
+function safePath(pathname) {
+  if (typeof pathname !== 'string') return null;
+  // Must be root-relative, and must not begin a `//host` or `/\host` authority.
+  if (!/^\/(?![/\\])[^\s]*$/.test(pathname)) return null;
+  return pathname;
+}
+
 function fallbackRedirect(request, status) {
   const referer = request.headers.get('Referer');
   let target = '/reads/';
   try {
     // Only bounce back to our own pages.
     const url = new URL(referer);
-    if (url.origin === new URL(request.url).origin) {
-      target = `${url.pathname}?comment=${status}#comments`;
+    const path = safePath(url.pathname);
+    if (path && url.origin === new URL(request.url).origin) {
+      target = `${path}?comment=${status}#comments`;
     }
   } catch {
     /* no or malformed Referer - fall through to /reads/ */
   }
-  return new Response(null, { status: 303, headers: { Location: target } });
+  return new Response(null, {
+    status: 303,
+    headers: { Location: target, 'Cache-Control': 'no-store' },
+  });
 }
 
 function fail(request, message, status) {
@@ -45,7 +65,7 @@ function fail(request, message, status) {
     : fallbackRedirect(request, 'error');
 }
 
-export async function onRequestPost({ request, env }) {
+async function handlePost({ request, env }) {
   if (!env.DB) {
     return fail(request, 'Comments are not configured.', 503);
   }
@@ -76,20 +96,24 @@ export async function onRequestPost({ request, env }) {
   if (!checked.ok) return fail(request, checked.error, 400);
   const { postId, author, body } = checked.value;
 
-  // 3. Flood control per address.
+  // 3. Flood control per address. Cloudflare always sets CF-Connecting-IP; if it
+  // is somehow missing we have no rate-limit key, so refuse rather than letting
+  // an unthrottled writer through.
   const ipHash = await hashIp(remoteip, env.IP_SALT ?? '');
-  if (ipHash) {
-    const { results } = await env.DB.prepare(
-      `SELECT COUNT(*) AS n FROM comments
-        WHERE ip_hash = ?1
-          AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', ?2)`
-    )
-      .bind(ipHash, `-${FLOOD_WINDOW_MINUTES} minutes`)
-      .all();
+  if (!ipHash) {
+    return fail(request, 'Could not verify the request source.', 400);
+  }
 
-    if ((results?.[0]?.n ?? 0) >= FLOOD_MAX) {
-      return fail(request, 'Too many comments just now. Please try again later.', 429);
-    }
+  const { results } = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM comments
+      WHERE ip_hash = ?1
+        AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', ?2)`
+  )
+    .bind(ipHash, `-${FLOOD_WINDOW_MINUTES} minutes`)
+    .all();
+
+  if ((results?.[0]?.n ?? 0) >= FLOOD_MAX) {
+    return fail(request, 'Too many comments just now. Please try again later.', 429);
   }
 
   // 4. Persist, pending moderation.
@@ -109,6 +133,19 @@ export async function onRequestPost({ request, env }) {
   return wantsJson(request)
     ? json({ ok: true, message: 'Thanks. Your comment is awaiting review.' })
     : fallbackRedirect(request, 'received');
+}
+
+/**
+ * Never let an internal throw (D1 unavailable, malformed body, ...) escape as a
+ * raw 500 with a stack trace. Log it for the tail, return a neutral message.
+ */
+export async function onRequestPost(context) {
+  try {
+    return await handlePost(context);
+  } catch (err) {
+    console.error('POST /comment failed:', err);
+    return fail(context.request, 'Something went wrong. Please try again.', 500);
+  }
 }
 
 // A bare GET on /comment is not meaningful; send people to the archive.

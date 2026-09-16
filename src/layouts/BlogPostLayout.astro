@@ -1,6 +1,7 @@
 ---
 // src/layouts/BlogPostLayout.astro
 import BaseLayout from './BaseLayout.astro';
+import { buildPostTitle, buildMetaDescription, buildBreadcrumbs } from '../lib/seo';
 
 const { frontmatter } = Astro.props;
 const title = frontmatter?.title || Astro.props.title;
@@ -8,10 +9,17 @@ const friendlyDate = frontmatter?.friendlyDate || Astro.props.friendlyDate;
 const description = frontmatter?.description || Astro.props.description;
 const wordpressLink = frontmatter?.wordpressLink || Astro.props.wordpressLink;
 const pubDate = frontmatter?.pubDate || Astro.props.pubDate;
+// Honoured when a post was first published elsewhere and should point there.
+const canonical = frontmatter?.canonical || Astro.props.canonical;
 const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
 
 // Canonical URL for this post, for structured data.
-const postUrl = new URL(Astro.url.pathname, Astro.site).href;
+const postUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
+
+// Article rich results require an image; fall back to the social card so every
+// post is eligible rather than only the ones with their own artwork.
+const ogImage = frontmatter?.ogImage || Astro.props.ogImage || '/images/og-default.png';
+const imageUrl = new URL(ogImage, Astro.site).href;
 
 const blogPostingSchema = {
   '@context': 'https://schema.org',
@@ -19,25 +27,38 @@ const blogPostingSchema = {
   headline: title,
   ...(description ? { description } : {}),
   ...(isoDate ? { datePublished: isoDate, dateModified: isoDate } : {}),
-  author: {
-    '@type': 'Person',
-    name: 'Pranay Mehrotra',
-    url: 'https://pranaym.com',
-  },
+  image: [imageUrl],
+  inLanguage: 'en',
+  author: { '@id': 'https://pranaym.com/#person' },
   publisher: { '@id': 'https://pranaym.com/#person' },
+  isPartOf: { '@id': 'https://pranaym.com/#website' },
   mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
   url: postUrl,
 };
+
+const breadcrumbSchema = buildBreadcrumbs([
+  { name: 'Home', path: '/' },
+  { name: 'Writing', path: '/blog/' },
+  { name: title, path: Astro.url.pathname },
+]);
 ---
 
 <BaseLayout
-  title={`${title} — Pranay`}
-  description={description}
+  title={buildPostTitle(title)}
+  description={description ? buildMetaDescription(description) : undefined}
+  canonical={canonical}
   ogType="article"
   publishedTime={isoDate}
+  ogImage={ogImage}
 >
   <article class="post-container">
-    <a href="/blog/" class="back-link">&larr; Back to writing</a>
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog/">Writing</a></li>
+        <li aria-current="page">{title}</li>
+      </ol>
+    </nav>
 
     <header class="post-header">
       <h1>{title}</h1>
@@ -54,7 +75,12 @@ const blogPostingSchema = {
     <div class="post-body">
       <slot />
     </div>
+
+    <nav class="post-footer-nav">
+      <a href="/blog/" class="back-link">&larr; Back to writing</a>
+    </nav>
   </article>
 
   <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 </BaseLayout>

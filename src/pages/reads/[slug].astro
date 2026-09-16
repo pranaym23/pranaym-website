@@ -2,7 +2,7 @@
 // src/pages/reads/[slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { buildReadTitle, buildReadDescription } from '../../lib/seo';
+import { buildReadTitle, buildReadDescription, buildBreadcrumbs } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const reads = await getCollection('reads');
@@ -40,12 +40,13 @@ const readSchema = {
   description: entry.data.takeaway,
   datePublished: isoDate,
   dateModified: isoDate,
-  author: {
-    '@type': 'Person',
-    name: 'Pranay Mehrotra',
-    url: 'https://pranaym.com',
-  },
+  // Article rich results require an image; the social card keeps every read
+  // eligible without hand-made artwork per entry.
+  image: [new URL('/images/og-default.png', Astro.site).href],
+  inLanguage: 'en',
+  author: { '@id': 'https://pranaym.com/#person' },
   publisher: { '@id': 'https://pranaym.com/#person' },
+  isPartOf: { '@id': 'https://pranaym.com/#website' },
   mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
   url: pageUrl,
   isBasedOn: {
@@ -55,6 +56,12 @@ const readSchema = {
     url: entry.data.url,
   },
 };
+
+const breadcrumbSchema = buildBreadcrumbs([
+  { name: 'Home', path: '/' },
+  { name: 'Recommended Reading', path: '/reads/' },
+  { name: entry.data.title, path: Astro.url.pathname },
+]);
 ---
 
 <BaseLayout
@@ -65,8 +72,12 @@ const readSchema = {
 >
   <article class="read-detail-article">
     <!-- Back to archive navigation -->
-    <nav class="back-nav">
-      <a href="/reads/" class="back-link">&larr; Back to Recommended Reading</a>
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/reads/">Recommended Reading</a></li>
+        <li aria-current="page">{entry.data.title}</li>
+      </ol>
     </nav>
 
     <header class="read-detail-header">
@@ -74,7 +85,8 @@ const readSchema = {
         <img
           class="read-favicon"
           src={`https://www.google.com/s2/favicons?domain=${entry.data.domain}&sz=32`}
-          alt={`${entry.data.domain} favicon`}
+          alt=""
+          referrerpolicy="no-referrer"
           width="16"
           height="16"
           loading="lazy"
@@ -109,6 +121,7 @@ const readSchema = {
 
     <!-- Structured Data Schema for SEO & LLMs -->
     <script type="application/ld+json" set:html={JSON.stringify(readSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
     <!-- Guest comments: approved thread is fetched client-side from /comments,
          new submissions POST to /comment and land in the moderation queue. -->

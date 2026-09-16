@@ -7,6 +7,8 @@ const SITE = 'https://pranaym.com';
 
 function esc(s: string): string {
   return (s ?? '')
+    // XML 1.0 forbids most C0 control characters outright - strip before escaping.
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -19,6 +21,10 @@ export const GET: APIRoute = async () => {
     (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
   );
 
+  const buildDate = new Date(
+    sorted[0]?.data.pubDate ?? Date.now()
+  ).toUTCString();
+
   const items = sorted
     .map((post) => {
       const link = `${SITE}/blog/${post.id}/`;
@@ -28,20 +34,21 @@ export const GET: APIRoute = async () => {
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <pubDate>${pub}</pubDate>
-      <author>Pranay Mehrotra</author>
+      <dc:creator>Pranay Mehrotra</dc:creator>
       <description>${esc(post.data.description ?? '')}</description>
     </item>`;
     })
     .join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Writing — Pranay</title>
     <link>${SITE}/blog/</link>
     <atom:link href="${SITE}/blog/rss.xml" rel="self" type="application/rss+xml" />
     <description>Essays, reflections, and technical articles by Pranay Mehrotra.</description>
     <language>en</language>
+    <lastBuildDate>${buildDate}</lastBuildDate>
 ${items}
   </channel>
 </rss>

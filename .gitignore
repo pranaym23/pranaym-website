@@ -10,3 +10,6 @@ dist/
 .env.*
 .dev.vars
 .dev.vars.*
+
+# Agent working notes - kept local, contains unreviewed strategy assessment
+CLAUDE.md

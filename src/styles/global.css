@@ -1435,3 +1435,121 @@ a:hover {
 }
 
 
+
+/* ---------------------------------------------------------------------------
+   Breadcrumbs
+   Replaces the single "back" link on blog posts and reads. Gives the reader
+   the full trail and backs the BreadcrumbList schema with visible markup.
+   --------------------------------------------------------------------------- */
+.breadcrumbs {
+  margin: 0 0 2rem;
+}
+.breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.breadcrumbs li + li::before {
+  content: '/';
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+.breadcrumbs a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border: none;
+  transition: color 0.15s ease;
+}
+.breadcrumbs a:hover {
+  color: var(--text-strong);
+}
+/* The trailing crumb is the current page: never let a long title wrap the bar. */
+.breadcrumbs li[aria-current='page'] {
+  color: var(--text-muted);
+  max-width: 32ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The back link now sits after the article, so it should not reserve the
+   3rem of space it used when it led the page. */
+.post-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.post-footer-nav .back-link {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Writing archive: title-only rows gave a reader nothing to choose between.
+   The detailed variant adds the post description under each title.
+   --------------------------------------------------------------------------- */
+.post-list--detailed {
+  gap: 2rem;
+}
+.post-item--detailed {
+  align-items: baseline;
+  gap: 1.5rem;
+}
+.post-item-body {
+  flex: 1;
+  min-width: 0;
+}
+.post-title-link--lead {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  padding: 0;
+}
+.post-item-description {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 68ch;
+}
+
+@media (max-width: 600px) {
+  .post-item--detailed {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .breadcrumbs li[aria-current='page'] {
+    max-width: 18ch;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+   The photo reel already skips auto-scroll via JS; this covers every CSS
+   transition and animation on the site for the same users.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .photo-reel {
+    scroll-behavior: auto !important;
+  }
+}
