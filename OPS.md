@@ -71,6 +71,27 @@ npx wrangler d1 execute pranaym-comments --remote --command="UPDATE comments SET
 - `TURNSTILE_SECRET` -> Turnstile secret key (encrypted)
 - `IP_SALT` -> any random string; salts the stored IP hash
 
+The binding variable **must** be named `DB` — that is what `functions/*.js` read.
+`wrangler d1 create` suggests a name derived from the database (`pranaym_comments`);
+using that leaves `env.DB` undefined and silently disables comments.
+
+**Everything lives in the personal Cloudflare account**
+(`Pranay.mehrotra23@gmail.com`, `b8e947bb4af9989cce06761490022d6a`) — both the
+`pranaym-website` Pages project and the `pranaym-comments` D1 database.
+**D1 bindings cannot cross accounts.** If the database is created in the Kolab
+account it will simply never appear in this project's binding dropdown, and
+comments fail with "Comments are not configured." Check `wrangler whoami`
+before creating anything.
+
+Symptom guide when comments look broken:
+- `POST /comment` -> `"Comments are not configured."` = `DB` unbound (or
+  `TURNSTILE_SECRET` unset; the `DB` check fires first and masks it).
+- `POST /comment` -> `"Please complete the verification challenge."` = bindings
+  are fine, the request just had no Turnstile token.
+- `GET /comments?post_id=../etc` -> 400 means `DB` is bound. Note a *valid-shaped*
+  id like `read-nope` correctly returns 200 with `[]`, so do not use one as a
+  health check.
+
 Do **not** create a `wrangler.toml`. Pages' CI reads that exact filename and
 then ignores every dashboard binding, which would silently drop
 `TURNSTILE_SECRET` in production. Local dev uses `wrangler.dev.toml`, passed
