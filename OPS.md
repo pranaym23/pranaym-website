@@ -53,7 +53,7 @@ approve it.** Approved comments are fetched client-side from `/comments`.
 - `functions/comment.js` — POST handler; `functions/comments.js` — public GET.
 - `functions/_shared.js` — validation, IP hashing, Turnstile verify.
 - `schema.sql` — table definition. Database: `pranaym-comments`
-  (`e05fefb4-a589-44d6-bca2-fddd0f812fa3`).
+  (`f8b03ae3-80cd-4ebd-8bd6-ecd18b04a6a6`).
 
 ### Moderating
 ```
@@ -80,7 +80,7 @@ explicitly.
 ```
 npm run build
 npx wrangler d1 execute DB -c wrangler.dev.toml --local --file=./schema.sql
-npx wrangler pages dev dist --d1 DB=e05fefb4-a589-44d6-bca2-fddd0f812fa3 \
+npx wrangler pages dev dist --d1 DB=f8b03ae3-80cd-4ebd-8bd6-ecd18b04a6a6 \
     --compatibility-date=2025-07-01
 ```
 `.dev.vars` holds Turnstile's public *test* keys (always pass). To exercise the

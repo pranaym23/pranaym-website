@@ -17,4 +17,4 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "pranaym-comments"
-database_id = "e05fefb4-a589-44d6-bca2-fddd0f812fa3"
+database_id = "f8b03ae3-80cd-4ebd-8bd6-ecd18b04a6a6"
